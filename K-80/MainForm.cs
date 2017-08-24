@@ -1143,11 +1143,14 @@ namespace K_80
                     txtbox_info.Text = "Much Device,First Connected";
                 else
                 {
-                    deviceUtil.getDeviceItem(UsbDeviceInfo[0].Description);
-                    txtbox_info.Text = UsbDeviceInfo[0].DeviceID;
-                    txtbox_vid.Text ="0x" + deviceUtil.getStrVid();
-                    txtbox_pid.Text = "0x" + deviceUtil.getStrPid();
-                    SL_Comm_Base.Device_Open((ushort)deviceUtil.getShortVid(), (ushort)deviceUtil.getShortPid());
+                    if (UsbDeviceInfo.Length == 1)
+                    { 
+                        deviceUtil.getDeviceItem(UsbDeviceInfo[0].Description);
+                        txtbox_info.Text = UsbDeviceInfo[0].DeviceID;
+                        txtbox_vid.Text ="0x" + deviceUtil.getStrVid();
+                        txtbox_pid.Text = "0x" + deviceUtil.getStrPid();
+                        SL_Comm_Base.Device_Open((ushort)deviceUtil.getShortVid(), (ushort)deviceUtil.getShortPid());
+                    }
                 }
             }
 
@@ -1165,11 +1168,14 @@ namespace K_80
                     txtbox_info.Text = "Much Device,First Connected";
                 else
                 {
-                    deviceUtil.getDeviceItem(UsbDeviceInfo[0].Description);
-                    txtbox_info.Text = UsbDeviceInfo[0].DeviceID;
-                    txtbox_vid.Text = "0x" + deviceUtil.getStrVid();
-                    txtbox_pid.Text = "0x" + deviceUtil.getStrPid();
-                    SL_Comm_Base.Device_Open((ushort)deviceUtil.getShortVid(), (ushort)deviceUtil.getShortPid());
+                    if(UsbDeviceInfo.Length ==1)
+                    { 
+                        deviceUtil.getDeviceItem(UsbDeviceInfo[0].Description);
+                        txtbox_info.Text = UsbDeviceInfo[0].DeviceID;
+                        txtbox_vid.Text = "0x" + deviceUtil.getStrVid();
+                        txtbox_pid.Text = "0x" + deviceUtil.getStrPid();
+                        SL_Comm_Base.Device_Open((ushort)deviceUtil.getShortVid(), (ushort)deviceUtil.getShortPid());
+                    }
                 }
 
             }
