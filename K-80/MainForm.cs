@@ -15,10 +15,7 @@ using System.IO.Ports;
 using SL_Tek_Studio_Pro;
 using System.Collections;
 using System.Globalization;
-
-
-
-
+using System.Reflection;
 
 namespace K_80
 {
@@ -29,7 +26,7 @@ namespace K_80
         private double Y_paramater = 3.4262590996323;
         private SL_ExcuteCmd Device =null;
         private string ELECSBOARD = "0x7422\r";
-
+        SL_Device_Util.ScDeviceInfo[] UsbDeviceInfo;
 
         private double[] VRA_mapping_Brightness = new double[1024];//將1024組電壓分壓 轉換成亮度表現 提供查表Mapping
 
@@ -84,8 +81,29 @@ namespace K_80
 
         private  void InitialSetting()
         {
+      
+            //Create Copy Dll
+            string eppdll = Application.StartupPath + "\\EPP2USB_DLL_V12.dll";    
+            if (!File.Exists(eppdll))
+            {            
+                Assembly aObj = Assembly.GetExecutingAssembly();
+                Stream sStream = aObj.GetManifestResourceStream("SL_Tek_Studio_Pro.Resources.EPP2USB_DLL_V12.dll");
+                
+                if (sStream == null)
+                {
+                    MessageBox.Show("read file error....");
+                }
+                else
+                {
+                    byte[] bySave = new byte[sStream.Length];
+                    sStream.Read(bySave, 0, bySave.Length);
+                    FileStream fsObj = new FileStream(eppdll, FileMode.CreateNew);
+                    fsObj.Write(bySave, 0, bySave.Length);
+                    fsObj.Close();
+                }
+            }
 
-
+            UsbDeviceList();
         }
 
 
@@ -1107,6 +1125,102 @@ namespace K_80
             /*       private int[] VP_index = new int[29]  { 0, 1, 3, 5, 7, 9, 11, 13, 15,
             24, 32, 48, 64, 96, 128, 160, 192, 208, 224, 232,
                     240, 242, 244, 246, 248, 250, 252, 254, 255};*/
+        }
+
+        private void deviceTimer_Tick(object sender, EventArgs e)
+        {
+            FindUsb();
+        }
+
+        private void UsbDeviceList()
+        {
+            SL_Device_Util deviceUtil = new SL_Device_Util();
+            if (deviceUtil.GetUSBDevices() > 0)
+            {
+                List<SL_Device_Util.ScDeviceInfo> UsbDevice = deviceUtil.FindScDevice();
+                UsbDeviceInfo = UsbDevice.ToArray();
+                if (UsbDeviceInfo.Length > 1)
+                    txtbox_info.Text = "Much Device,First Connected";
+                else
+                {
+                    deviceUtil.getDeviceItem(UsbDeviceInfo[0].Description);
+                    txtbox_info.Text = UsbDeviceInfo[0].DeviceID;
+                    txtbox_vid.Text ="0x" + deviceUtil.getStrVid();
+                    txtbox_pid.Text = "0x" + deviceUtil.getStrPid();
+                    SL_Comm_Base.Device_Open((ushort)deviceUtil.getShortVid(), (ushort)deviceUtil.getShortPid());
+                }
+            }
+
+        }
+
+        private void FindUsb()
+        {
+            SL_Device_Util deviceUtil = new SL_Device_Util();
+            if (deviceUtil.GetUSBDevices() > 0)
+            {
+                List<SL_Device_Util.ScDeviceInfo> UsbDevice = deviceUtil.FindScDevice();
+                this.UsbDeviceInfo = UsbDevice.ToArray();
+
+                if (UsbDeviceInfo.Length > 1)
+                    txtbox_info.Text = "Much Device,First Connected";
+                else
+                {
+                    deviceUtil.getDeviceItem(UsbDeviceInfo[0].Description);
+                    txtbox_info.Text = UsbDeviceInfo[0].DeviceID;
+                    txtbox_vid.Text = "0x" + deviceUtil.getStrVid();
+                    txtbox_pid.Text = "0x" + deviceUtil.getStrPid();
+                    SL_Comm_Base.Device_Open((ushort)deviceUtil.getShortVid(), (ushort)deviceUtil.getShortPid());
+                }
+
+            }
+        }
+
+        private void btn_BringUp_Click(object sender, EventArgs e)
+        {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            string rdstr = null;
+            WhiskeyUtil.MipiBridgeSelect(0x01); //Select 2828 Bank
+            WhiskeyUtil.SetFpgaTiming(0x33, 0x11, 0x13, 0xff, 0x1E, 0x0f);
+            WhiskeyUtil.SetMipiVideo(1920, 1080, 60, 16, 16, 30, 30, 4, 4);
+            WhiskeyUtil.SetMipiDsi(4, 700, "syncpulse");
+            WhiskeyUtil.i2cWrite(0x01, 0x7c, 0x00, 0x0e);//Poser IC Ctrl
+            WhiskeyUtil.i2cWrite(0x01, 0x7c, 0x01, 0x0e);
+            WhiskeyUtil.i2cWrite(0x07, 0x7c, 0x00, 0x0e);
+            WhiskeyUtil.i2cWrite(0x07, 0x7c, 0xFF, 0x00);
+
+            WhiskeyUtil.GpioCtrl(0x11, 0xff, 0xff); //GPIO RESET
+            WhiskeyUtil.GpioCtrl(0x11, 0x00, 0x00);
+            Thread.Sleep(10);
+            WhiskeyUtil.GpioCtrl(0x11, 0xff, 0xff);
+
+            WhiskeyUtil.MipiWrite(0x05, 0x11);
+            Thread.Sleep(100);
+            WhiskeyUtil.MipiWrite(0x05, 0x29);
+
+            WhiskeyUtil.MipiRead(0x0a, 1, ref rdstr); // rdstr: 0x9c
+
+            WhiskeyUtil.ImageFill(0, 255, 0);
+            Thread.Sleep(1000);
+            WhiskeyUtil.ImageFill(255, 0, 0);
+            Thread.Sleep(1000);
+            WhiskeyUtil.ImageFill(0, 0, 255);
+            Thread.Sleep(1000);
+
+        }
+
+        private void btn_imgfill_Click(object sender, EventArgs e)
+        {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            string rdstr = null;
+            WhiskeyUtil.MipiBridgeSelect(0x01); //Select 2828 Bank
+            WhiskeyUtil.ImageFill(255, 0, 255);
+        }
+
+        private void btn_imgShow_Click(object sender, EventArgs e)
+        {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            WhiskeyUtil.MipiBridgeSelect(0x01); //Select 2828 Bank
+            WhiskeyUtil.ImageShow("11.bmp");
         }
     }
 }

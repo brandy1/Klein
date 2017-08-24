@@ -59,5 +59,15 @@ namespace SL_Tek_Studio_Pro.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查詢類型 System.Byte[] 的當地語系化資源。
+        /// </summary>
+        internal static byte[] EPP2USB_DLL_V12 {
+            get {
+                object obj = ResourceManager.GetObject("EPP2USB_DLL_V12", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

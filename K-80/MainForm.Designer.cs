@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -128,6 +129,17 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.deviceTimer = new System.Windows.Forms.Timer(this.components);
+            this.gbx_usb = new System.Windows.Forms.GroupBox();
+            this.lbl_vid = new System.Windows.Forms.Label();
+            this.txtbox_vid = new System.Windows.Forms.TextBox();
+            this.lbl_pid = new System.Windows.Forms.Label();
+            this.txtbox_pid = new System.Windows.Forms.TextBox();
+            this.lbl_info = new System.Windows.Forms.Label();
+            this.txtbox_info = new System.Windows.Forms.TextBox();
+            this.btn_BringUp = new System.Windows.Forms.Button();
+            this.btn_imgfill = new System.Windows.Forms.Button();
+            this.btn_imgShow = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.gbx_openelecs.SuspendLayout();
@@ -138,6 +150,7 @@
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox7.SuspendLayout();
+            this.gbx_usb.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -1174,7 +1187,7 @@
             this.groupBox7.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
             this.groupBox7.Location = new System.Drawing.Point(989, 491);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(265, 245);
+            this.groupBox7.Size = new System.Drawing.Size(265, 97);
             this.groupBox7.TabIndex = 30;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "AUTO調適";
@@ -1191,11 +1204,115 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // deviceTimer
+            // 
+            this.deviceTimer.Enabled = true;
+            this.deviceTimer.Interval = 3000;
+            this.deviceTimer.Tick += new System.EventHandler(this.deviceTimer_Tick);
+            // 
+            // gbx_usb
+            // 
+            this.gbx_usb.Controls.Add(this.btn_imgShow);
+            this.gbx_usb.Controls.Add(this.btn_imgfill);
+            this.gbx_usb.Controls.Add(this.btn_BringUp);
+            this.gbx_usb.Controls.Add(this.txtbox_info);
+            this.gbx_usb.Controls.Add(this.lbl_info);
+            this.gbx_usb.Controls.Add(this.txtbox_pid);
+            this.gbx_usb.Controls.Add(this.lbl_pid);
+            this.gbx_usb.Controls.Add(this.txtbox_vid);
+            this.gbx_usb.Controls.Add(this.lbl_vid);
+            this.gbx_usb.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
+            this.gbx_usb.Location = new System.Drawing.Point(8, 754);
+            this.gbx_usb.Name = "gbx_usb";
+            this.gbx_usb.Size = new System.Drawing.Size(1000, 76);
+            this.gbx_usb.TabIndex = 31;
+            this.gbx_usb.TabStop = false;
+            this.gbx_usb.Text = "Usb Device";
+            // 
+            // lbl_vid
+            // 
+            this.lbl_vid.AutoSize = true;
+            this.lbl_vid.Location = new System.Drawing.Point(294, 29);
+            this.lbl_vid.Name = "lbl_vid";
+            this.lbl_vid.Size = new System.Drawing.Size(37, 19);
+            this.lbl_vid.TabIndex = 0;
+            this.lbl_vid.Text = "Vid:";
+            // 
+            // txtbox_vid
+            // 
+            this.txtbox_vid.Location = new System.Drawing.Point(340, 27);
+            this.txtbox_vid.Name = "txtbox_vid";
+            this.txtbox_vid.Size = new System.Drawing.Size(120, 27);
+            this.txtbox_vid.TabIndex = 1;
+            // 
+            // lbl_pid
+            // 
+            this.lbl_pid.AutoSize = true;
+            this.lbl_pid.Location = new System.Drawing.Point(482, 30);
+            this.lbl_pid.Name = "lbl_pid";
+            this.lbl_pid.Size = new System.Drawing.Size(36, 19);
+            this.lbl_pid.TabIndex = 2;
+            this.lbl_pid.Text = "Pid:";
+            // 
+            // txtbox_pid
+            // 
+            this.txtbox_pid.Location = new System.Drawing.Point(524, 26);
+            this.txtbox_pid.Name = "txtbox_pid";
+            this.txtbox_pid.Size = new System.Drawing.Size(114, 27);
+            this.txtbox_pid.TabIndex = 3;
+            // 
+            // lbl_info
+            // 
+            this.lbl_info.AutoSize = true;
+            this.lbl_info.Location = new System.Drawing.Point(21, 30);
+            this.lbl_info.Name = "lbl_info";
+            this.lbl_info.Size = new System.Drawing.Size(38, 19);
+            this.lbl_info.TabIndex = 4;
+            this.lbl_info.Text = "Info";
+            // 
+            // txtbox_info
+            // 
+            this.txtbox_info.Location = new System.Drawing.Point(65, 26);
+            this.txtbox_info.Name = "txtbox_info";
+            this.txtbox_info.Size = new System.Drawing.Size(204, 27);
+            this.txtbox_info.TabIndex = 5;
+            // 
+            // btn_BringUp
+            // 
+            this.btn_BringUp.Location = new System.Drawing.Point(653, 30);
+            this.btn_BringUp.Name = "btn_BringUp";
+            this.btn_BringUp.Size = new System.Drawing.Size(116, 25);
+            this.btn_BringUp.TabIndex = 6;
+            this.btn_BringUp.Text = "Dispaly On";
+            this.btn_BringUp.UseVisualStyleBackColor = true;
+            this.btn_BringUp.Click += new System.EventHandler(this.btn_BringUp_Click);
+            // 
+            // btn_imgfill
+            // 
+            this.btn_imgfill.Location = new System.Drawing.Point(775, 30);
+            this.btn_imgfill.Name = "btn_imgfill";
+            this.btn_imgfill.Size = new System.Drawing.Size(96, 25);
+            this.btn_imgfill.TabIndex = 7;
+            this.btn_imgfill.Text = "Image.Fill";
+            this.btn_imgfill.UseVisualStyleBackColor = true;
+            this.btn_imgfill.Click += new System.EventHandler(this.btn_imgfill_Click);
+            // 
+            // btn_imgShow
+            // 
+            this.btn_imgShow.Location = new System.Drawing.Point(877, 30);
+            this.btn_imgShow.Name = "btn_imgShow";
+            this.btn_imgShow.Size = new System.Drawing.Size(117, 25);
+            this.btn_imgShow.TabIndex = 8;
+            this.btn_imgShow.Text = "Image.show";
+            this.btn_imgShow.UseVisualStyleBackColor = true;
+            this.btn_imgShow.Click += new System.EventHandler(this.btn_imgShow_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1762, 1037);
+            this.Controls.Add(this.gbx_usb);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox4);
@@ -1230,6 +1347,8 @@
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.groupBox7.ResumeLayout(false);
+            this.gbx_usb.ResumeLayout(false);
+            this.gbx_usb.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1329,6 +1448,17 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer deviceTimer;
+        private System.Windows.Forms.GroupBox gbx_usb;
+        private System.Windows.Forms.TextBox txtbox_pid;
+        private System.Windows.Forms.Label lbl_pid;
+        private System.Windows.Forms.TextBox txtbox_vid;
+        private System.Windows.Forms.Label lbl_vid;
+        private System.Windows.Forms.TextBox txtbox_info;
+        private System.Windows.Forms.Label lbl_info;
+        private System.Windows.Forms.Button btn_imgShow;
+        private System.Windows.Forms.Button btn_imgfill;
+        private System.Windows.Forms.Button btn_BringUp;
     }
 }
 
