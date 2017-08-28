@@ -219,6 +219,18 @@ namespace SL_Tek_Studio_Pro
             return Chip.ERROR_RESULT_OK;
         }
 
+        public static int SPI_ReadReg(byte xRegAddr, int Num, ref uint xRegVal )
+        {
+            BdgeSel(false);
+            if (Num < 1 || Num > 4) return Chip.ERROR_BUFLEN_ERR;
+            if (SL_Comm_Base.SPI_AddrWr(xRegAddr) != 0) return Chip.ERROR_SPI_RD_FAIL;
+            if (SL_Comm_Base.SPI_AddrWr(REG_2828_READMODE) != 0) return Chip.ERROR_SPI_RD_FAIL;
+            if (!SL_AddrWrite(DATARDMODE_2828)) return Chip.ERROR_SPI_RD_FAIL;
+            for (int i = 0; i < Num; i++) xRegVal += (uint)SL_DataDummyRd() << (8 * i);
+            UnBgeSel();
+            return Chip.ERROR_RESULT_OK;
+        }
+
         public static int SPI_ReadRegNoCs(byte xRegAddr, ref uint xRegVal, int Num)
         {     
             if (Num < 1 || Num > 4) return Chip.ERROR_BUFLEN_ERR;

@@ -19,14 +19,12 @@ namespace SL_Tek_Studio_Pro
       
         public bool MipiBridgeSelect(byte SelVal)
         {
-
             Mipi.MipiBridgeSelect(SelVal);
             return true;
         }
 
         public bool MipiWrite(byte type, byte data)
         {
-
             byte[] MipiData = new byte[2];
             MipiData[0] = type;
             MipiData[1] = data;
@@ -35,7 +33,6 @@ namespace SL_Tek_Studio_Pro
 
         public bool MipiWrite(byte type, byte data, byte data1)
         {
-
             byte[] MipiData = new byte[3];
             MipiData[0] = type;
             MipiData[1] = data;
@@ -45,7 +42,6 @@ namespace SL_Tek_Studio_Pro
 
         public bool MipiWrite(byte type, byte data, byte data1, byte data2)
         {
-
             byte[] MipiData = new byte[4];
             MipiData[0] = type;
             MipiData[1] = data;
@@ -55,8 +51,7 @@ namespace SL_Tek_Studio_Pro
         }
 
         public bool MipiWrite(byte type, byte data, byte data1, byte data2, byte data3)
-        {
-     
+        {  
             byte[] MipiData = new byte[5];
             MipiData[0] = type;
             MipiData[1] = data;
@@ -69,6 +64,49 @@ namespace SL_Tek_Studio_Pro
         public bool MipiWrite(byte[] Mipidata)
         {
             return Mipi.MipiWrite(Mipidata);
+        }
+
+        public bool MipiHSWrite(byte type, byte data)
+        {
+            byte[] MipiData = new byte[2];
+            MipiData[0] = type;
+            MipiData[1] = data;
+            return Mipi.MipiHSWrite(MipiData);
+        }
+
+        public bool MipiHSWrite(byte type, byte data, byte data1)
+        {
+            byte[] MipiData = new byte[3];
+            MipiData[0] = type;
+            MipiData[1] = data;
+            MipiData[1] = data1;
+            return Mipi.MipiHSWrite(MipiData);
+        }
+
+        public bool MipiHSWrite(byte type, byte data, byte data1, byte data2)
+        {
+            byte[] MipiData = new byte[4];
+            MipiData[0] = type;
+            MipiData[1] = data;
+            MipiData[2] = data1;
+            MipiData[3] = data2;
+            return Mipi.MipiHSWrite(MipiData);
+        }
+
+        public bool MipiHSWrite(byte type, byte data, byte data1, byte data2, byte data3)
+        {
+            byte[] MipiData = new byte[5];
+            MipiData[0] = type;
+            MipiData[1] = data;
+            MipiData[2] = data1;
+            MipiData[3] = data2;
+            MipiData[4] = data3;
+            return Mipi.MipiHSWrite(MipiData);
+        }
+
+        public bool MipiHSWrite(byte[] Mipidata)
+        {
+            return Mipi.MipiHSWrite(Mipidata);
         }
 
         public bool MipiRead(byte Addr, byte RdNum, ref string RdStr)
@@ -162,9 +200,6 @@ namespace SL_Tek_Studio_Pro
             Thread.Sleep(2);
             return ret;
         }
-
-
-        
 
         public bool SetMipiDsi(int LaneCout, int MipiSpeed, string Mode)
         {
@@ -268,6 +303,14 @@ namespace SL_Tek_Studio_Pro
             SL_Comm_Base.SL_CommBase_WriteReg(0xb9, 0x00, VBP, 0x00, VBP);
             SL_Comm_Base.SL_CommBase_WriteReg(0xbb, VSA, VSA);
             SL_Comm_Base.SL_CommBase_WriteReg(0xad, 0x00, 0x00, 0x00);//Normal Data
+
+            /*2828 Setting*/
+            SL_Comm_Base.SPI_WriteReg(0xb1, VSA, HSA);
+            SL_Comm_Base.SPI_WriteReg(0xb2, VBP, HBP);
+            SL_Comm_Base.SPI_WriteReg(0xb3, VFP, HFP);
+            SL_Comm_Base.SPI_WriteReg(0xb4, VD_H, VD_L);
+            SL_Comm_Base.SPI_WriteReg(0xb5, HD_H, HD_L);
+
 #if (DEBUG)
             SL_Comm_Base.SL_CommBase_ReadReg(0xb4, ref Val, 2);
             SL_Comm_Base.SL_CommBase_ReadReg(0xb5, ref Val, 2);
@@ -333,10 +376,10 @@ namespace SL_Tek_Studio_Pro
             return true;
         }
 
-        public bool BridgeRead(byte addr, byte RdNum , string RdStr)
+        public bool BridgeRead(byte addr, byte RdNum ,ref string RdStr)
         {
             uint xferValue = 0;
-            int ret  =  SL_Comm_Base.SPI_ReadReg(addr, ref xferValue, RdNum);
+            int ret  =  SL_Comm_Base.SPI_ReadReg(addr, RdNum, ref xferValue);
             RdStr = "0x" + Convert.ToString(xferValue, 16);
             return (ret == 0) ? true : false;
         }
@@ -416,6 +459,35 @@ namespace SL_Tek_Studio_Pro
             return true;
         }
 
+        public bool FpgaWrite(byte Addr, byte[] Data)
+        {
+            switch (Data.Length)
+            {
+                case 1:
+                    SL_Comm_Base.SL_CommBase_WriteReg(Addr, Data[0]);
+                    break;
+                case 2:
+                    SL_Comm_Base.SL_CommBase_WriteReg(Addr, Data[0], Data[1]);
+                    break;
+                case 3:
+                    SL_Comm_Base.SL_CommBase_WriteReg(Addr, Data[0], Data[1], Data[2]);
+                    break;
+                case 4:
+                    SL_Comm_Base.SL_CommBase_WriteReg(Addr, Data[0], Data[1], Data[2], Data[3]);
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+
+        public bool FpgaRead(byte Addr , int RdNum,ref string RdStr)
+        {          
+            uint Val = 0;
+            int Ret = SL_Comm_Base.SL_CommBase_ReadReg(Addr,ref Val, RdNum);
+            RdStr = "0x" + Convert.ToString(Val, 16);
+            return (Ret == 0) ? true : false;
+        }
        
     }
 }

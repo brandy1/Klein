@@ -96,7 +96,7 @@ namespace SL_Tek_Studio_Pro
         private bool SLBrigeRead(string[] WhiskyData, ref string RdStr)
         {
             byte[] WhiskyValue = stringToByte(WhiskyData);
-            return WhiskyUtil.BridgeRead(WhiskyValue[0],  WhiskyValue[1], RdStr);
+            return WhiskyUtil.BridgeRead(WhiskyValue[0],  WhiskyValue[1], ref RdStr);
         }
 
         private bool SLBrigeWrite(string[] WhiskyData, ref string RdStr)
