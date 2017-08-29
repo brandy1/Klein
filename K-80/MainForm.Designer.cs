@@ -126,6 +126,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.deviceTimer = new System.Windows.Forms.Timer(this.components);
             this.gbx_usb = new System.Windows.Forms.GroupBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.txtbox_info = new System.Windows.Forms.TextBox();
             this.lbl_info = new System.Windows.Forms.Label();
             this.txtbox_pid = new System.Windows.Forms.TextBox();
@@ -135,9 +137,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.gbx_openelecs.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -1148,7 +1147,6 @@
             // 
             // gbx_usb
             // 
-            this.gbx_usb.Controls.Add(this.button8);
             this.gbx_usb.Controls.Add(this.button7);
             this.gbx_usb.Controls.Add(this.button6);
             this.gbx_usb.Controls.Add(this.txtbox_info);
@@ -1164,6 +1162,30 @@
             this.gbx_usb.TabIndex = 31;
             this.gbx_usb.TabStop = false;
             this.gbx_usb.Text = "STEP1A: USB Device";
+            // 
+            // button7
+            // 
+            this.button7.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button7.Location = new System.Drawing.Point(782, 17);
+            this.button7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(120, 63);
+            this.button7.TabIndex = 122;
+            this.button7.Text = "點漸層灰階圖";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button6.Location = new System.Drawing.Point(654, 17);
+            this.button6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(120, 63);
+            this.button6.TabIndex = 121;
+            this.button6.Text = "量測256階灰階表現並繪圖";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // txtbox_info
             // 
@@ -1248,42 +1270,6 @@
             this.button3.Text = "Load Initial Code";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button6
-            // 
-            this.button6.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button6.Location = new System.Drawing.Point(654, 17);
-            this.button6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(120, 63);
-            this.button6.TabIndex = 121;
-            this.button6.Text = "量測256階灰階表現並繪圖";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // button7
-            // 
-            this.button7.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button7.Location = new System.Drawing.Point(782, 17);
-            this.button7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(120, 63);
-            this.button7.TabIndex = 122;
-            this.button7.Text = "點漸層灰階圖";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // button8
-            // 
-            this.button8.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button8.Location = new System.Drawing.Point(910, 17);
-            this.button8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(120, 63);
-            this.button8.TabIndex = 123;
-            this.button8.Text = "點漸層灰階圖";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // MainForm
             // 
@@ -1432,7 +1418,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
     }
 }
 

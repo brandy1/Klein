@@ -36,7 +36,7 @@ namespace SL_Tek_Studio_Pro
             if (WhiskyValue[0] == 0x29) { ConfRegH = 0x06; ConfRegL = 0x10; }
             if (WhiskyValue[0] == 0x03) { ConfRegH = 0x02; ConfRegL = 0x10; }
             if (WhiskyValue[0] == 0x13) { ConfRegH = 0x02; ConfRegL = 0x10; }
-            if (WhiskyValue[0] == 0x23) { ConfRegH = 0x06; ConfRegL = 0x10; }
+            if (WhiskyValue[0] == 0x23) { ConfRegH = 0x02; ConfRegL = 0x10; }
             //DCS
             if (WhiskyValue[0] == 0x39) { ConfRegH = 0x06; ConfRegL = 0x50; }
             if (WhiskyValue[0] == 0x05) { ConfRegH = 0x02; ConfRegL = 0x50; }

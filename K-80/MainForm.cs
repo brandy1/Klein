@@ -1093,7 +1093,11 @@ namespace K_80
                 Thread.Sleep(1000);
 
                 Tie_Actual_Brightness[tie] = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
+
+
+
             }
+
 
 
 
@@ -1212,9 +1216,9 @@ namespace K_80
             uint test = 0;
 
             WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x19, 0x11, 0x01);
-            SL_Comm_Base.SPI_ReadReg(0xb7, 2, ref test);
-            SL_Comm_Base.SPI_ReadReg(0xbb, 2, ref test);
-            SL_Comm_Base.SPI_ReadReg(0xbc, 2, ref test);
+            //SL_Comm_Base.SPI_ReadReg(0xb7, 2, ref test);
+            //SL_Comm_Base.SPI_ReadReg(0xbb, 2, ref test);
+            //SL_Comm_Base.SPI_ReadReg(0xbc, 2, ref test);
             WhiskeyUtil.MipiWrite(0x13, 0x00, 0x80);
             WhiskeyUtil.MipiWrite(0x13, 0xFF, 0x19);
             WhiskeyUtil.MipiWrite(0x13, 0x00, 0x81);
@@ -1357,12 +1361,8 @@ namespace K_80
         {
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
             WhiskeyUtil.MipiBridgeSelect(0x01); //Select 2828 Bank
-            WhiskeyUtil.ImageShow("11.bmp");
+            WhiskeyUtil.ImageShow("VG.bmp");
         }
 
-        private void button8_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
