@@ -41,10 +41,12 @@ namespace K_80
         private double EstimateBrightness_Min;//推算標準Gamma亮度前 先用K80量測面板表現最暗灰階的亮度值 存於此
         private double EstimateBrightness_Max;//推算標準Gamma亮度前 先用K80量測面板表現最亮灰階的亮度值 存於此
         private double[] EstimateBrightness = new double[256];//推算符合Gamma曲線設定的亮度表現
+        private double[] Actual_Brightness = new double[256];//實測亮度表現
         private double[] EstimateBrightness_toleranceP = new double[256];//推算符合Gamma曲線設定的亮度表現
         private double[] EstimateBrightness_toleranceN = new double[256];//推算符合Gamma曲線設定的亮度表現
-        private double[] Estimate_Brightness_Slope = new double[29];//推算的亮度 計算的斜率
+        private double[] Tie_Estimate_Brightness = new double[29];//推算的亮度 計算的斜率
         private double[] Tie_Actual_Brightness = new double[29];//實測的亮度 計算的斜率
+
 
         private double[] Actual_Brightness_Slope = new double[29];//實測的亮度 計算的斜率
         private int[] Tie_Index_CalGet = new int[29];//推算的亮度 去找出的綁點的設定值
@@ -299,22 +301,20 @@ namespace K_80
         private void GetEstimateBrightness_button_Click(object sender, EventArgs e)
         {
             int dive = comboBox1.SelectedIndex + 1;
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            string rdstr = null;
 
             /*推算標準Gamma亮度前 先用K80量測面板表現最暗與最亮灰階的亮度值*/
 
-            //■■■■■■■■■■■■
-            //  LCD點最暗灰階
-            //  LCM Control Code Here !!
-            //■■■■■■■■■■■■
+            WhiskeyUtil.ImageFill(0, 0, 0);
+            Thread.Sleep(1000);
 
             EstimateBrightness_Min = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
             YMin_label.Text = "YMin=" + Convert.ToString(EstimateBrightness_Min);
 
 
-            //■■■■■■■■■■■■
-            //  LCD點最亮灰階
-            //  LCM Control Code Here !!
-            //■■■■■■■■■■■■
+            WhiskeyUtil.ImageFill(255, 255, 255);
+            Thread.Sleep(1000);
 
             EstimateBrightness_Max = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
             YMax_label.Text = "YMax=" + Convert.ToString(EstimateBrightness_Max);
@@ -327,8 +327,8 @@ namespace K_80
 
             Gamma_set = Convert.ToDouble(GammaSet_textBox.Text);
 
-            EstimateBrightness_Max = 50;
-            EstimateBrightness_Min = 0.5;
+            //EstimateBrightness_Max = 50;
+            //EstimateBrightness_Min = 0.5;
 
             chart1.Series[0].Points.Clear();
             chart1.Series[1].Points.Clear();
@@ -347,24 +347,24 @@ namespace K_80
             for (int tie = 0; tie < 29; tie++)
             { EstimateBrightnessTie_struct[tie] = new BrightnessTie_struct(); }
 
-            for (int tie = 0; tie < 28; tie++)
-            {
-                EstimateBrightnessTie_struct[tie].Start_Tie_Index = VP_index[tie];
-                EstimateBrightnessTie_struct[tie].End_Tie_Index = VP_index[(tie + 1)];
-                EstimateBrightnessTie_struct[tie].Start_Tie_Brightness = EstimateBrightness[VP_index[tie]];
-                EstimateBrightnessTie_struct[tie].End_Tie_Brightness = EstimateBrightness[VP_index[(tie + 1)]];
-            }
+            //for (int tie = 0; tie < 28; tie++)
+            //{
+            //    EstimateBrightnessTie_struct[tie].Start_Tie_Index = VP_index[tie];
+            //    EstimateBrightnessTie_struct[tie].End_Tie_Index = VP_index[(tie + 1)];
+            //    EstimateBrightnessTie_struct[tie].Start_Tie_Brightness = EstimateBrightness[VP_index[tie]];
+            //    EstimateBrightnessTie_struct[tie].End_Tie_Brightness = EstimateBrightness[VP_index[(tie + 1)]];
+            //}
 
 
-            for (int num = 0; num < 28; num++)
-            {
-                //num=0 表示tie0~tie1的斜率
-                //num=1 表示tie1~tie2的斜率...以此類推
-                temp = EstimateBrightnessTie_struct[num].End_Tie_Brightness - EstimateBrightnessTie_struct[num].Start_Tie_Brightness;
-                temp2 = EstimateBrightnessTie_struct[num].End_Tie_Index - EstimateBrightnessTie_struct[num].Start_Tie_Index;
-                Estimate_Brightness_Slope[num] = Math.Round(temp / temp2,4);
-            }
-            //斜率取得完畢
+            //for (int num = 0; num < 28; num++)
+            //{
+            //    //num=0 表示tie0~tie1的斜率
+            //    //num=1 表示tie1~tie2的斜率...以此類推
+            //    temp = EstimateBrightnessTie_struct[num].End_Tie_Brightness - EstimateBrightnessTie_struct[num].Start_Tie_Brightness;
+            //    temp2 = EstimateBrightnessTie_struct[num].End_Tie_Index - EstimateBrightnessTie_struct[num].Start_Tie_Index;
+            //    Estimate_Brightness_Slope[num] = Math.Round(temp / temp2,4);
+            //}
+            ////斜率取得完畢
 
 
             //計算誤差上界 並繪出圖
@@ -1003,6 +1003,8 @@ namespace K_80
         //Read Gamma Parameter Setting from Gamma Register to Tie_ParameterSettingt[0~28]
         private void GammaRegister_to_WTie_ParameterSetting()
         {
+
+
             //↓↓↓↓↓Gamma R+ Register Setting↓↓↓↓↓//
             //
             //↑↑↑↑↑Gamma R+ Register Setting↑↑↑↑↑//
@@ -1059,72 +1061,42 @@ namespace K_80
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int Gray_scale = 0;
             int dive = comboBox1.SelectedIndex + 1;
-            double temp = 0;
             double diff_min = EstimateBrightness_Max;
             double diff_min_last = EstimateBrightness_Max;
-            int flag_tunelse = 0;
-            int GammaSetting_last;
+            byte tie_gray = 0;
+
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            string rdstr = null;
 
             Tie_Actual_Brightness[0] = EstimateBrightness_Max;
 
-            for (int tie=1; tie<29; tie++)
+            //Tie_Actual_Brightness[tie] 實測亮度 @ tie灰階上
+            //VP_index[tie] 
+            //{0, 1, 3, 5, 7, 9, 11, 13, 15,
+            //        24, 32, 48, 64, 96, 128, 160, 192, 208, 224, 232,
+            //        240, 242, 244, 246, 248, 250, 252, 254, 255};
+            //Tie_Estimate_Brightness
+
+            //先把綁點推算的亮度從EstimateBrightness DataBase放到變數Tie_Estimate_Brightness去計算
+            for (int tie=0; tie<29; tie++) //tir=0 時亮度最亮
             {
-                diff_min = EstimateBrightness_Max;
-                //(1)針對重點綁點進行量測亮度
-                Gray_scale = VP_index[tie];
+                Tie_Estimate_Brightness[tie] = EstimateBrightness[VP_index[tie]];
+            }
 
-                //面板點相對應的灰階 灰階=Gray_scale
+            //依序點綁點處的灰階 並且用K80量測
+            for (int tie = 0; tie < 29; tie++) //tir=0 時亮度最亮
+            {
+                tie_gray = Convert.ToByte(255-VP_index[tie]);
 
+                WhiskeyUtil.ImageFill(tie_gray, tie_gray, tie_gray);
+                Thread.Sleep(1000);
 
-                //K80量測灰階亮度
                 Tie_Actual_Brightness[tie] = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
-
-
-                //計算本次綁點(tie)亮度與上一個綁點亮度的差異 並且計算出斜率
-                //tie=0 表示tie0~tie1的斜率
-                //tie=1 表示tie1~tie2的斜率...以此類推
-                temp = Tie_Actual_Brightness[tie] - Tie_Actual_Brightness[(tie - 1)];
-                temp = temp / (VP_index[tie] - VP_index[tie - 1]);
-                Actual_Brightness_Slope[(tie - 1)] = Math.Round(temp, 4);
-
-                //Estimate_Brightness_Slope[] VS Actual_Brightness_Slope[]
-
-                //比較推算出的標準斜率(Estimate_Brightness_Slope[])與實測斜率(Actual_Brightness_Slope[])
-                //兩者的差異 作為調適的方向
-                diff_min = Math.Abs(Actual_Brightness_Slope[tie - 1] - Estimate_Brightness_Slope[tie - 1]);
-
-
-                if(Actual_Brightness_Slope[tie - 1] > Estimate_Brightness_Slope[tie - 1])
-                {
-                    //實測斜率 在標準斜率的右邊 也可能使用者暫存器根本設定錯誤
-                    //正確解法=把暫存器值調大 讓對應灰階亮度降下來 斜率往左偏 斜率偏移方向下降
-                    flag_tunelse = 1;
-
-                    //紀錄目前的Gamma暫存器設定於GammaSetting_last
-
-                }
-                else
-                {
-                    //實測斜率 在標準斜率的左邊 
-                    //正確解法=把暫存器值調小 讓對應灰階亮度提高 斜率往右偏 斜率偏移方向上升 
-                    flag_tunelse = 2;
-
-                    //紀錄目前的Gamma暫存器設定於GammaSetting_last
-                }
-
-
-
-
-
-
             }
 
 
-            /*       private int[] VP_index = new int[29]  { 0, 1, 3, 5, 7, 9, 11, 13, 15,
-            24, 32, 48, 64, 96, 128, 160, 192, 208, 224, 232,
-                    240, 242, 244, 246, 248, 250, 252, 254, 255};*/
+
         }
 
         private void deviceTimer_Tick(object sender, EventArgs e)
@@ -1181,27 +1153,124 @@ namespace K_80
             }
         }
 
-        private void btn_BringUp_Click(object sender, EventArgs e)
+
+
+
+        private void DSV_Setting()
+        {
+            // SPLC095A 
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0xa0, 0x20);
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x22);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x0c);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x48);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x22);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x09);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x0a);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x22);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x0d);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x67);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x22);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x0e);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x55);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x22);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x0f);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x55);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x22);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x50);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x22);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x0a);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, 0x11);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);
+        }
+
+        private void CMD2_and_FOCAL_Enable()
         {
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
             string rdstr = null;
+            uint test = 0;
+
+            WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x19, 0x11, 0x01);
+            SL_Comm_Base.SPI_ReadReg(0xb7, 2, ref test);
+            SL_Comm_Base.SPI_ReadReg(0xbb, 2, ref test);
+            SL_Comm_Base.SPI_ReadReg(0xbc, 2, ref test);
+            WhiskeyUtil.MipiWrite(0x13, 0x00, 0x80);
+            WhiskeyUtil.MipiWrite(0x13, 0xFF, 0x19);
+            WhiskeyUtil.MipiWrite(0x13, 0x00, 0x81);
+            WhiskeyUtil.MipiWrite(0x13, 0xFF, 0x11);
+
+            WhiskeyUtil.MipiWrite(0x13, 0x00, 0x00);
+            WhiskeyUtil.MipiWrite(0x13, 0xD0, 0xAA);
+
+            WhiskeyUtil.MipiWrite(0x00, 0x00);
+            WhiskeyUtil.MipiRead(0xF8, 6, ref rdstr); // rdstr: ID1: 0x40h
+            Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
+
+            WhiskeyUtil.MipiWrite(0x00, 0x00);
+            WhiskeyUtil.MipiRead(0xDA, 1, ref rdstr); // rdstr: ID1: 0x40h
+            Info_textBox.Text +=  rdstr + "\r\n"; 
+
+
+
+
+        }
+
+        private void Vset_but_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            string rdstr = null;
+
+            Info_textBox.Text = "";
+
             WhiskeyUtil.MipiBridgeSelect(0x01); //Select 2828 Bank
+
             WhiskeyUtil.SetFpgaTiming(0x33, 0x11, 0x13, 0xff, 0x1E, 0x0f);
+
             WhiskeyUtil.SetMipiVideo(1920, 1080, 60, 16, 16, 30, 30, 4, 4);
-            WhiskeyUtil.SetMipiDsi(4, 700, "syncpulse");
-            WhiskeyUtil.i2cWrite(0x01, 0x7c, 0x00, 0x0e);//Poser IC Ctrl
-            WhiskeyUtil.i2cWrite(0x01, 0x7c, 0x01, 0x0e);
-            WhiskeyUtil.i2cWrite(0x07, 0x7c, 0x00, 0x0e);
-            WhiskeyUtil.i2cWrite(0x07, 0x7c, 0xFF, 0x00);
+
+            WhiskeyUtil.SetMipiDsi(4, 700, "burst");
+            uint data = 0;
+            SL_Comm_Base.SPI_ReadReg(0xbb, ref data, 2);
+
+            DSV_Setting();
 
             WhiskeyUtil.GpioCtrl(0x11, 0xff, 0xff); //GPIO RESET
             WhiskeyUtil.GpioCtrl(0x11, 0x00, 0x00);
-            Thread.Sleep(10);
+            Thread.Sleep(100);
             WhiskeyUtil.GpioCtrl(0x11, 0xff, 0xff);
+
+            CMD2_and_FOCAL_Enable();
 
             WhiskeyUtil.MipiWrite(0x05, 0x11);
             Thread.Sleep(100);
             WhiskeyUtil.MipiWrite(0x05, 0x29);
+
 
             WhiskeyUtil.MipiRead(0x0a, 1, ref rdstr); // rdstr: 0x9c
 
@@ -1211,22 +1280,89 @@ namespace K_80
             Thread.Sleep(1000);
             WhiskeyUtil.ImageFill(0, 0, 255);
             Thread.Sleep(1000);
-
         }
 
-        private void btn_imgfill_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
+            Info_textBox.Text = "";
+
+
+
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
             string rdstr = null;
-            WhiskeyUtil.MipiBridgeSelect(0x01); //Select 2828 Bank
-            WhiskeyUtil.ImageFill(255, 0, 255);
+
+            //Display OFF
+            WhiskeyUtil.MipiWrite(0x05, 0x28);
+            WhiskeyUtil.MipiWrite(0x05, 0x10);
+
+
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            WhiskeyUtil.MipiRead(0xE1, 1, ref rdstr);
+            Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
+
+            //WhiskeyUtil.MipiWrite(0x13, 0x00, 0x00);
+            //WhiskeyUtil.MipiWrite(0x13, 0xE0, 0x01);
+
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            WhiskeyUtil.MipiRead(0xE2, 1, ref rdstr);
+            Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
+
+
+            //Display On
+            WhiskeyUtil.MipiWrite(0x05, 0x11);
+            WhiskeyUtil.MipiWrite(0x05, 0x29);
+            WhiskeyUtil.ImageFill(0, 255, 0);
+            Thread.Sleep(1000);
+
+            //Display OFF
+            
         }
 
-        private void btn_imgShow_Click(object sender, EventArgs e)
+        private void display_off()
+        {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            WhiskeyUtil.MipiWrite(0x05, 0x28); Thread.Sleep(100);
+        }
+
+        private void display_on()
+        {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            WhiskeyUtil.MipiWrite(0x05, 0x29); Thread.Sleep(100);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            int dive = comboBox1.SelectedIndex + 1;
+
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            byte tie_gray= 0x00;
+
+
+            //依序點綁點處的灰階 並且用K80量測
+            for (int gary = 0; gary < 256; gary++) //tir=0 時亮度最亮
+            {
+                tie_gray = Convert.ToByte(255 - gary);
+
+                WhiskeyUtil.ImageFill(tie_gray, tie_gray, tie_gray);
+                Thread.Sleep(1000);
+
+                Actual_Brightness[gary] = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
+
+                chart1.Series[3].Points.AddXY(gary, Actual_Brightness[gary]);
+            }
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
         {
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
             WhiskeyUtil.MipiBridgeSelect(0x01); //Select 2828 Bank
             WhiskeyUtil.ImageShow("11.bmp");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

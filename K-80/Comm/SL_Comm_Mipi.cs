@@ -49,7 +49,7 @@ namespace SL_Tek_Studio_Pro
             SL_Comm_Base.SPI_WriteReg(0xb7, ConfRegH, ConfRegL);
             SL_Comm_Base.SPI_WriteReg(0xbd, HD, M_HD);
             SL_Comm_Base.SPI_WriteReg(0xbc, M_LD, LD);
-            SL_Comm_Base.SL_CommBase_WriteReg(0xb3, 0x10);
+            SL_Comm_Base.SL_CommBase_WriteReg(0xb3, SL_Comm_Base.ChipSel());
             SL_Comm_Base.SL_CommBase_WriteReg(0x8b, 0xbf);
 
             SL_Comm_Base.SL_AddrWrite(0x8c);

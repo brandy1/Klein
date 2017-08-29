@@ -41,17 +41,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ComPortSel_comboBox = new System.Windows.Forms.ComboBox();
             this.ComPortCheck_Button = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.gbx_openelecs = new System.Windows.Forms.GroupBox();
             this.lbl_elecs_status = new System.Windows.Forms.Label();
             this.btn_oepnelecs = new System.Windows.Forms.Button();
             this.cbo_elecsport = new System.Windows.Forms.ComboBox();
             this.lbl_elecs = new System.Windows.Forms.Label();
             this.Vset_but = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.YMin_label = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -131,19 +126,20 @@
             this.button1 = new System.Windows.Forms.Button();
             this.deviceTimer = new System.Windows.Forms.Timer(this.components);
             this.gbx_usb = new System.Windows.Forms.GroupBox();
-            this.lbl_vid = new System.Windows.Forms.Label();
-            this.txtbox_vid = new System.Windows.Forms.TextBox();
-            this.lbl_pid = new System.Windows.Forms.Label();
-            this.txtbox_pid = new System.Windows.Forms.TextBox();
-            this.lbl_info = new System.Windows.Forms.Label();
             this.txtbox_info = new System.Windows.Forms.TextBox();
-            this.btn_BringUp = new System.Windows.Forms.Button();
-            this.btn_imgfill = new System.Windows.Forms.Button();
-            this.btn_imgShow = new System.Windows.Forms.Button();
+            this.lbl_info = new System.Windows.Forms.Label();
+            this.txtbox_pid = new System.Windows.Forms.TextBox();
+            this.lbl_pid = new System.Windows.Forms.Label();
+            this.txtbox_vid = new System.Windows.Forms.TextBox();
+            this.lbl_vid = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.gbx_openelecs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -151,6 +147,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.gbx_usb.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -160,14 +157,14 @@
             this.groupBox1.Controls.Add(this.ComPortSel_comboBox);
             this.groupBox1.Controls.Add(this.ComPortCheck_Button);
             this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox1.Location = new System.Drawing.Point(4, 2);
+            this.groupBox1.Location = new System.Drawing.Point(8, 99);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.groupBox1.Size = new System.Drawing.Size(248, 133);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "STEP1:  CONNECTION SET";
+            this.groupBox1.Text = "STEP1B:  CONNECTION SET";
             // 
             // ComPortState_label
             // 
@@ -214,58 +211,6 @@
             this.ComPortCheck_Button.UseVisualStyleBackColor = true;
             this.ComPortCheck_Button.Click += new System.EventHandler(this.ComPortCheck_Button_Click);
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("微軟正黑體", 10F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(28, 147);
-            this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(253, 22);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "1fL= 3.4262590996323 Cd/m²";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.checkBox2);
-            this.groupBox5.Controls.Add(this.checkBox1);
-            this.groupBox5.Controls.Add(this.label7);
-            this.groupBox5.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBox5.Location = new System.Drawing.Point(42, 1099);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.groupBox5.Size = new System.Drawing.Size(500, 214);
-            this.groupBox5.TabIndex = 12;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Y Units";
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("微軟正黑體", 10F, System.Drawing.FontStyle.Bold);
-            this.checkBox2.Location = new System.Drawing.Point(34, 100);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(85, 26);
-            this.checkBox2.TabIndex = 14;
-            this.checkBox2.Text = "Cd/m²";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Font = new System.Drawing.Font("微軟正黑體", 10F, System.Drawing.FontStyle.Bold);
-            this.checkBox1.Location = new System.Drawing.Point(34, 47);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(47, 26);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "fL";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // gbx_openelecs
             // 
             this.gbx_openelecs.Controls.Add(this.lbl_elecs_status);
@@ -273,11 +218,11 @@
             this.gbx_openelecs.Controls.Add(this.cbo_elecsport);
             this.gbx_openelecs.Controls.Add(this.lbl_elecs);
             this.gbx_openelecs.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.gbx_openelecs.Location = new System.Drawing.Point(257, 2);
+            this.gbx_openelecs.Location = new System.Drawing.Point(989, 704);
             this.gbx_openelecs.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.gbx_openelecs.Name = "gbx_openelecs";
             this.gbx_openelecs.Padding = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.gbx_openelecs.Size = new System.Drawing.Size(247, 133);
+            this.gbx_openelecs.Size = new System.Drawing.Size(266, 133);
             this.gbx_openelecs.TabIndex = 2;
             this.gbx_openelecs.TabStop = false;
             this.gbx_openelecs.Text = "STEP2: ELECS E7422 CONNECT";
@@ -336,16 +281,7 @@
             this.Vset_but.TabIndex = 12;
             this.Vset_but.Text = "SET OK!";
             this.Vset_but.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1466, 47);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(279, 917);
-            this.dataGridView1.TabIndex = 20;
+            this.Vset_but.Click += new System.EventHandler(this.Vset_but_Click);
             // 
             // groupBox2
             // 
@@ -359,7 +295,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBox2.Location = new System.Drawing.Point(7, 147);
+            this.groupBox2.Location = new System.Drawing.Point(8, 242);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(288, 212);
             this.groupBox2.TabIndex = 21;
@@ -476,12 +412,12 @@
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBox3.Location = new System.Drawing.Point(306, 145);
+            this.groupBox3.Location = new System.Drawing.Point(311, 241);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(197, 213);
+            this.groupBox3.Size = new System.Drawing.Size(190, 213);
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "常用功能";
+            this.groupBox3.Text = "讀寫暫存器功能";
             // 
             // button5
             // 
@@ -568,7 +504,7 @@
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.textBox_VP242);
             this.groupBox4.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBox4.Location = new System.Drawing.Point(8, 359);
+            this.groupBox4.Location = new System.Drawing.Point(8, 460);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(493, 377);
             this.groupBox4.TabIndex = 23;
@@ -1138,7 +1074,7 @@
             // 
             this.groupBox6.Controls.Add(this.Info_textBox);
             this.groupBox6.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBox6.Location = new System.Drawing.Point(507, 491);
+            this.groupBox6.Location = new System.Drawing.Point(509, 592);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(471, 245);
             this.groupBox6.TabIndex = 25;
@@ -1151,7 +1087,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(513, 12);
+            this.chart1.Location = new System.Drawing.Point(509, 113);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -1185,9 +1121,9 @@
             // 
             this.groupBox7.Controls.Add(this.button1);
             this.groupBox7.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBox7.Location = new System.Drawing.Point(989, 491);
+            this.groupBox7.Location = new System.Drawing.Point(990, 592);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(265, 97);
+            this.groupBox7.Size = new System.Drawing.Size(265, 102);
             this.groupBox7.TabIndex = 30;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "AUTO調適";
@@ -1212,9 +1148,9 @@
             // 
             // gbx_usb
             // 
-            this.gbx_usb.Controls.Add(this.btn_imgShow);
-            this.gbx_usb.Controls.Add(this.btn_imgfill);
-            this.gbx_usb.Controls.Add(this.btn_BringUp);
+            this.gbx_usb.Controls.Add(this.button8);
+            this.gbx_usb.Controls.Add(this.button7);
+            this.gbx_usb.Controls.Add(this.button6);
             this.gbx_usb.Controls.Add(this.txtbox_info);
             this.gbx_usb.Controls.Add(this.lbl_info);
             this.gbx_usb.Controls.Add(this.txtbox_pid);
@@ -1222,44 +1158,19 @@
             this.gbx_usb.Controls.Add(this.txtbox_vid);
             this.gbx_usb.Controls.Add(this.lbl_vid);
             this.gbx_usb.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.gbx_usb.Location = new System.Drawing.Point(8, 754);
+            this.gbx_usb.Location = new System.Drawing.Point(8, 5);
             this.gbx_usb.Name = "gbx_usb";
-            this.gbx_usb.Size = new System.Drawing.Size(1000, 76);
+            this.gbx_usb.Size = new System.Drawing.Size(1009, 88);
             this.gbx_usb.TabIndex = 31;
             this.gbx_usb.TabStop = false;
-            this.gbx_usb.Text = "Usb Device";
+            this.gbx_usb.Text = "STEP1A: USB Device";
             // 
-            // lbl_vid
+            // txtbox_info
             // 
-            this.lbl_vid.AutoSize = true;
-            this.lbl_vid.Location = new System.Drawing.Point(294, 29);
-            this.lbl_vid.Name = "lbl_vid";
-            this.lbl_vid.Size = new System.Drawing.Size(37, 19);
-            this.lbl_vid.TabIndex = 0;
-            this.lbl_vid.Text = "Vid:";
-            // 
-            // txtbox_vid
-            // 
-            this.txtbox_vid.Location = new System.Drawing.Point(340, 27);
-            this.txtbox_vid.Name = "txtbox_vid";
-            this.txtbox_vid.Size = new System.Drawing.Size(120, 27);
-            this.txtbox_vid.TabIndex = 1;
-            // 
-            // lbl_pid
-            // 
-            this.lbl_pid.AutoSize = true;
-            this.lbl_pid.Location = new System.Drawing.Point(482, 30);
-            this.lbl_pid.Name = "lbl_pid";
-            this.lbl_pid.Size = new System.Drawing.Size(36, 19);
-            this.lbl_pid.TabIndex = 2;
-            this.lbl_pid.Text = "Pid:";
-            // 
-            // txtbox_pid
-            // 
-            this.txtbox_pid.Location = new System.Drawing.Point(524, 26);
-            this.txtbox_pid.Name = "txtbox_pid";
-            this.txtbox_pid.Size = new System.Drawing.Size(114, 27);
-            this.txtbox_pid.TabIndex = 3;
+            this.txtbox_info.Location = new System.Drawing.Point(65, 26);
+            this.txtbox_info.Name = "txtbox_info";
+            this.txtbox_info.Size = new System.Drawing.Size(204, 27);
+            this.txtbox_info.TabIndex = 5;
             // 
             // lbl_info
             // 
@@ -1270,57 +1181,124 @@
             this.lbl_info.TabIndex = 4;
             this.lbl_info.Text = "Info";
             // 
-            // txtbox_info
+            // txtbox_pid
             // 
-            this.txtbox_info.Location = new System.Drawing.Point(65, 26);
-            this.txtbox_info.Name = "txtbox_info";
-            this.txtbox_info.Size = new System.Drawing.Size(204, 27);
-            this.txtbox_info.TabIndex = 5;
+            this.txtbox_pid.Location = new System.Drawing.Point(524, 26);
+            this.txtbox_pid.Name = "txtbox_pid";
+            this.txtbox_pid.Size = new System.Drawing.Size(114, 27);
+            this.txtbox_pid.TabIndex = 3;
             // 
-            // btn_BringUp
+            // lbl_pid
             // 
-            this.btn_BringUp.Location = new System.Drawing.Point(653, 30);
-            this.btn_BringUp.Name = "btn_BringUp";
-            this.btn_BringUp.Size = new System.Drawing.Size(116, 25);
-            this.btn_BringUp.TabIndex = 6;
-            this.btn_BringUp.Text = "Dispaly On";
-            this.btn_BringUp.UseVisualStyleBackColor = true;
-            this.btn_BringUp.Click += new System.EventHandler(this.btn_BringUp_Click);
+            this.lbl_pid.AutoSize = true;
+            this.lbl_pid.Location = new System.Drawing.Point(482, 30);
+            this.lbl_pid.Name = "lbl_pid";
+            this.lbl_pid.Size = new System.Drawing.Size(36, 19);
+            this.lbl_pid.TabIndex = 2;
+            this.lbl_pid.Text = "Pid:";
             // 
-            // btn_imgfill
+            // txtbox_vid
             // 
-            this.btn_imgfill.Location = new System.Drawing.Point(775, 30);
-            this.btn_imgfill.Name = "btn_imgfill";
-            this.btn_imgfill.Size = new System.Drawing.Size(96, 25);
-            this.btn_imgfill.TabIndex = 7;
-            this.btn_imgfill.Text = "Image.Fill";
-            this.btn_imgfill.UseVisualStyleBackColor = true;
-            this.btn_imgfill.Click += new System.EventHandler(this.btn_imgfill_Click);
+            this.txtbox_vid.Location = new System.Drawing.Point(340, 27);
+            this.txtbox_vid.Name = "txtbox_vid";
+            this.txtbox_vid.Size = new System.Drawing.Size(120, 27);
+            this.txtbox_vid.TabIndex = 1;
             // 
-            // btn_imgShow
+            // lbl_vid
             // 
-            this.btn_imgShow.Location = new System.Drawing.Point(877, 30);
-            this.btn_imgShow.Name = "btn_imgShow";
-            this.btn_imgShow.Size = new System.Drawing.Size(117, 25);
-            this.btn_imgShow.TabIndex = 8;
-            this.btn_imgShow.Text = "Image.show";
-            this.btn_imgShow.UseVisualStyleBackColor = true;
-            this.btn_imgShow.Click += new System.EventHandler(this.btn_imgShow_Click);
+            this.lbl_vid.AutoSize = true;
+            this.lbl_vid.Location = new System.Drawing.Point(294, 29);
+            this.lbl_vid.Name = "lbl_vid";
+            this.lbl_vid.Size = new System.Drawing.Size(37, 19);
+            this.lbl_vid.TabIndex = 0;
+            this.lbl_vid.Text = "Vid:";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.button4);
+            this.groupBox5.Controls.Add(this.button3);
+            this.groupBox5.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBox5.Location = new System.Drawing.Point(271, 99);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(229, 132);
+            this.groupBox5.TabIndex = 32;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "STEP2: Initial Code";
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(120, 30);
+            this.button4.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(100, 92);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "TEST!!";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(9, 30);
+            this.button3.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(100, 92);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Load Initial Code";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button6.Location = new System.Drawing.Point(654, 17);
+            this.button6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(120, 63);
+            this.button6.TabIndex = 121;
+            this.button6.Text = "量測256階灰階表現並繪圖";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button7
+            // 
+            this.button7.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button7.Location = new System.Drawing.Point(782, 17);
+            this.button7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(120, 63);
+            this.button7.TabIndex = 122;
+            this.button7.Text = "點漸層灰階圖";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button8.Location = new System.Drawing.Point(910, 17);
+            this.button8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(120, 63);
+            this.button8.TabIndex = 123;
+            this.button8.Text = "點漸層灰階圖";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1762, 1037);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.gbx_usb);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Vset_but);
-            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.gbx_openelecs);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox6);
@@ -1333,11 +1311,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             this.gbx_openelecs.ResumeLayout(false);
             this.gbx_openelecs.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1349,6 +1324,7 @@
             this.groupBox7.ResumeLayout(false);
             this.gbx_usb.ResumeLayout(false);
             this.gbx_usb.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1360,17 +1336,12 @@
         private System.Windows.Forms.ComboBox ComPortSel_comboBox;
         private System.Windows.Forms.Button ComPortCheck_Button;
         private System.Windows.Forms.Label ComPortState_label;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox gbx_openelecs;
         private System.Windows.Forms.Button btn_oepnelecs;
         private System.Windows.Forms.ComboBox cbo_elecsport;
         private System.Windows.Forms.Label lbl_elecs;
         private System.Windows.Forms.Label lbl_elecs_status;
         private System.Windows.Forms.Button Vset_but;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label YMin_label;
         private System.Windows.Forms.Label label4;
@@ -1456,9 +1427,12 @@
         private System.Windows.Forms.Label lbl_vid;
         private System.Windows.Forms.TextBox txtbox_info;
         private System.Windows.Forms.Label lbl_info;
-        private System.Windows.Forms.Button btn_imgShow;
-        private System.Windows.Forms.Button btn_imgfill;
-        private System.Windows.Forms.Button btn_BringUp;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 

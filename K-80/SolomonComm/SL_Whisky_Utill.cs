@@ -213,7 +213,7 @@ namespace SL_Tek_Studio_Pro
             if (HS > 50.1 && HS <= 100) FR = 0xC2;
 
             Lane = (LaneNum >= 1 && LaneNum <= 4) ? (byte)(LaneNum - 1) : (byte)0x03;
-            LpVal = (byte)((HS * 10 / 8 / 6));
+            LpVal = (byte)((MipiSpeed / 8 / 7));
 
             SL_Comm_Base.SPI_WriteReg(0xb9, 0x00, 0x00); //PLL disable
             SL_Comm_Base.SPI_WriteReg(0xb8, 0x00, 0x00); //VC(Virtual ChannelID) Control Register
@@ -259,7 +259,7 @@ namespace SL_Tek_Studio_Pro
                 SL_Comm_Base.SPI_WriteReg(0xb5, VD_H, VD_L);  //VICR5=> VACT VDISP
 
                 // -----------clk lane in HS,when no data send--------------
-                SL_Comm_Base.SPI_WriteReg(0xb6, 0x00, 0x03);	//0x03,bit5 
+                SL_Comm_Base.SPI_WriteReg(0xb6, 0x00, 0x07);	//0x03,bit5 
             }
 
             return true;
