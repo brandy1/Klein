@@ -1094,14 +1094,35 @@ namespace K_80
 
                 Tie_Actual_Brightness[tie] = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
 
+                
 
 
             }
 
+        }
+
+        private void SetGammaRegister(int StartAdr,int GammaValue, int GRP)//GammaValue:0~1023可調整 值越小越亮  GRP:想控制綁點 1~29共29個
+        {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            string rdstr = null;
+
+            int[] Regisrer_Data = new int[37];
+            byte AdrH = Convert.ToByte((StartAdr >>8) & 0xFF);
+            byte AdrL = Convert.ToByte(StartAdr & 0xFF);
 
 
+            WhiskeyUtil.MipiWrite(0x13, 0x00, AdrL);
+            WhiskeyUtil.MipiRead(AdrL, 1, ref rdstr);
+            Regisrer_Data[] = 
+
+
+
+
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            WhiskeyUtil.MipiRead(0xE2, 1, ref rdstr);
 
         }
+
 
         private void deviceTimer_Tick(object sender, EventArgs e)
         {
@@ -1304,7 +1325,7 @@ namespace K_80
             WhiskeyUtil.MipiRead(0xE1, 1, ref rdstr);
             Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
 
-            //WhiskeyUtil.MipiWrite(0x13, 0x00, 0x00);
+            //WhiskeyUtil.MipiWrite(0x13, 0x00, 0x01);
             //WhiskeyUtil.MipiWrite(0x13, 0xE0, 0x01);
 
             WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
