@@ -1,4 +1,4 @@
-﻿ 
+﻿  
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,15 +32,17 @@ namespace SL_Tek_Studio_Pro
         SL_Equip_Util[] EquipUtil = new SL_Equip_Util[10];
         SL_ElecsSpt_Util ElecsSpt = new SL_ElecsSpt_Util();
         SL_WhiskySpt_Util WhiskySpt = new SL_WhiskySpt_Util();
-#if (INSTRUSUPPORT)
+
         ~SL_ExcuteCmd()
         {
+#if (INSTRUSUPPORT)
             foreach (SL_Equip_Util InstruUtil in EquipUtil)
             {
                 if (InstruUtil != null && InstruUtil.isOpen()) InstruUtil.Close();
             }
-        }
 #endif
+        }
+
         public string ExamScript(string[] Commands, ref List<ScriptInfo> ScriptInfo)
         {
             return ElecsSpt.ExamScript(Commands, ref ScriptInfo);

@@ -22,6 +22,9 @@ namespace SL_Tek_Studio_Pro
         private const string SSL_IMAGE_FILL = "ssl.image.fill";
         private const string SSL_MIPI_READ = "ssl.mipi.read";
         private const string SSL_IMAGE_SHOW = "ssl.image.show";
+        private const string SSL_FPGA_WRITE = "ssl.fpga.write";
+        private const string SSL_FPGA_READ = "ssl.fpga.read";
+        
         private const double FPGA_OSC = 40.0;  
         private char[] DelimiterChars = { ' ', ',', ':', '\t' };
         SL_WhiskyComm_Util WhiskyUtil = new SL_WhiskyComm_Util();
@@ -52,7 +55,25 @@ namespace SL_Tek_Studio_Pro
             if(WhiskyCmd[0].CompareTo(SSL_IMAGE_FILL) == 0) ret = SLImageFill(WhiskyData, ref RdStr);
             if(WhiskyCmd[0].CompareTo(SSL_MIPI_READ) == 0) ret = SLMipiRead(WhiskyData, ref RdStr);
             if(WhiskyCmd[0].CompareTo(SSL_IMAGE_SHOW) == 0) ret = SLImageShow(WhiskyData, ref RdStr);
+            if(WhiskyCmd[0].CompareTo(SSL_FPGA_WRITE) == 0) ret = SLFpgaWrite(WhiskyData, ref RdStr);
+            if(WhiskyCmd[0].CompareTo(SSL_FPGA_READ) == 0) ret = SLFpgaRead(WhiskyData, ref RdStr);
             return ret;
+        }
+
+        private bool SLFpgaRead(string[] WhiskyData, ref string RdStr)
+        {
+            byte[] WhiskyValue = stringToByte(WhiskyData);
+            return WhiskyUtil.FpgaRead(WhiskyValue[0], WhiskyValue[1],ref RdStr); ;
+        }
+
+        private bool SLFpgaWrite(string[] WhiskyData, ref string RdStr)
+        {
+            if (WhiskyData.Length > 5) { RdStr = "Much Parameter\n"; return false; }
+            byte[] WhiskyValue = stringToByte(WhiskyData);
+            byte[] RegData = new byte[WhiskyValue.Length - 1];
+            Array.Copy(WhiskyValue, 1, RegData, 0, RegData.Length);
+            return WhiskyUtil.FpgaWrite(WhiskyValue[0], RegData);
+
         }
 
         private bool SLImageShow(string[] WhiskyData, ref string RdStr)
@@ -62,8 +83,11 @@ namespace SL_Tek_Studio_Pro
 
         private bool SLMipiRead(string[] WhiskyData, ref string RdStr)
         {
+            string Msg = null;
             byte[] WhiskyValue = stringToByte(WhiskyData);
-            return WhiskyUtil.MipiRead(WhiskyValue[0], WhiskyValue[1],ref RdStr);
+            bool ret = WhiskyUtil.MipiRead(WhiskyValue[0], WhiskyValue[1],ref Msg);
+            RdStr += Msg;
+            return ret;
         }
 
         private bool SLImageFill(string[] WhiskyData, ref string RdStr)
@@ -96,7 +120,7 @@ namespace SL_Tek_Studio_Pro
         private bool SLBrigeRead(string[] WhiskyData, ref string RdStr)
         {
             byte[] WhiskyValue = stringToByte(WhiskyData);
-            return WhiskyUtil.BridgeRead(WhiskyValue[0],  WhiskyValue[1], ref RdStr);
+            return WhiskyUtil.BridgeRead(WhiskyValue[0],  WhiskyValue[1],ref RdStr);
         }
 
         private bool SLBrigeWrite(string[] WhiskyData, ref string RdStr)

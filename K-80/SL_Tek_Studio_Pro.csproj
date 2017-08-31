@@ -83,11 +83,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolomonComm\SL_Equip_Util.cs" />
+    <Compile Include="SolomonComm\SL_ExcuteCmd.cs" />
+    <Compile Include="SolomonComm\SL_WhiskySpt_Util.cs" />
     <Compile Include="SolomonComm\SL_Whisky_Utill.cs" />
     <Compile Include="StudioUtil\SL_Color_Util.cs" />
     <Compile Include="SolomonComm\SL_ElecsSpt_Util.cs" />
-    <Compile Include="SolomonComm\SL_ExcuteCmd.cs" />
-    <Compile Include="SolomonComm\SL_WhiskySpt_Util.cs" />
     <Compile Include="StudioUtil\SL_Bridge_Flash.cs" />
     <Compile Include="StudioUtil\SL_Device_Util.cs" />
     <Compile Include="StudioUtil\SL_HidUtil.cs" />
