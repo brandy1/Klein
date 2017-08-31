@@ -53,6 +53,8 @@ namespace K_80
         private int[] Tie_ParameterSetting_MSB = new int[29];
         private int[] Tie_ParameterSetting_LSB = new int[29];
 
+        private UInt16[] GP_OTM1911A = new UInt16[30]; //GP1~GP29 OTM1911 Gamma1綁點設定值存放處
+
 
         public BrightnessTie_struct[] EstimateBrightnessTie_struct = new BrightnessTie_struct[29];
         public BrightnessTie_struct[] ActualBrightnessTie_struct = new BrightnessTie_struct[29];
@@ -464,206 +466,122 @@ namespace K_80
 
 
             //VP0
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP0.Text = Convert.ToString((temp_MSB + temp_LSB));
+            //temp_MSB = Tie_ParameterSetting_MSB[cnt];
+            //temp_LSB = Tie_ParameterSetting_LSB[cnt];
+            //temp_MSB <<= 8;
+            textBox_VP0.Text = Convert.ToString(GP_OTM1911A[1]);
             cnt++;
 
             //VP1
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP1.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP1.Text = Convert.ToString(GP_OTM1911A[2]);
             cnt++;
 
             //VP3
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP3.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP3.Text = Convert.ToString(GP_OTM1911A[3]);
             cnt++;
 
             //VP5
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP5.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP5.Text = Convert.ToString(GP_OTM1911A[4]);
             cnt++;
 
             //VP7
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP7.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP7.Text = Convert.ToString(GP_OTM1911A[5]);
             cnt++;
 
             //VP9
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP9.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP9.Text = Convert.ToString(GP_OTM1911A[6]);
             cnt++;
 
             //VP11
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP11.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP11.Text = Convert.ToString(GP_OTM1911A[7]);
             cnt++;
 
             //VP13
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP13.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP13.Text = Convert.ToString(GP_OTM1911A[8]);
             cnt++;
 
             //VP15
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP15.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP15.Text = Convert.ToString(GP_OTM1911A[9]);
             cnt++;
 
             //VP24
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP24.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP24.Text = Convert.ToString(GP_OTM1911A[10]);
             cnt++;
 
             //VP32
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP32.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP32.Text = Convert.ToString(GP_OTM1911A[11]);
             cnt++;
 
             //VP48
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP48.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP48.Text = Convert.ToString(GP_OTM1911A[12]);
             cnt++;
 
             //VP64
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP64.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP64.Text = Convert.ToString(GP_OTM1911A[13]);
             cnt++;
 
             //VP96
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP96.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP96.Text = Convert.ToString(GP_OTM1911A[14]);
             cnt++;
 
             //VP128
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP128.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP128.Text = Convert.ToString(GP_OTM1911A[15]);
             cnt++;
 
             //VP160
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP160.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP160.Text = Convert.ToString(GP_OTM1911A[16]);
             cnt++;
 
             //VP192
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP192.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP192.Text = Convert.ToString(GP_OTM1911A[17]);
             cnt++;
 
             //VP208
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP208.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP208.Text = Convert.ToString(GP_OTM1911A[18]);
             cnt++;
 
             //VP224
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP224.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP224.Text = Convert.ToString(GP_OTM1911A[19]);
             cnt++;
 
             //VP232
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP232.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP232.Text = Convert.ToString(GP_OTM1911A[20]);
             cnt++;
 
             //VP240
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP240.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP240.Text = Convert.ToString(GP_OTM1911A[21]);
             cnt++;
 
             //VP242
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP242.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP242.Text = Convert.ToString(GP_OTM1911A[22]);
             cnt++;
 
             //VP244
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP244.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP244.Text = Convert.ToString(GP_OTM1911A[23]);
             cnt++;
 
             //VP246
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP246.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP246.Text = Convert.ToString(GP_OTM1911A[24]);
             cnt++;
 
             //VP248
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP248.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP248.Text = Convert.ToString(GP_OTM1911A[25]);
             cnt++;
 
             //VP250
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP250.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP250.Text = Convert.ToString(GP_OTM1911A[26]);
             cnt++;
 
             //VP252
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP252.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP252.Text = Convert.ToString(GP_OTM1911A[27]);
             cnt++;
 
             //VP254
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP254.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP254.Text = Convert.ToString(GP_OTM1911A[28]);
             cnt++;
 
             //VP255
-            temp_MSB = Tie_ParameterSetting_MSB[cnt];
-            temp_LSB = Tie_ParameterSetting_LSB[cnt];
-            temp_MSB <<= 8;
-            textBox_VP255.Text = Convert.ToString((temp_MSB + temp_LSB));
+            textBox_VP255.Text = Convert.ToString(GP_OTM1911A[29]);
             cnt++;
         }
 
@@ -1049,14 +967,23 @@ namespace K_80
 
         private void button5_Click(object sender, EventArgs e)
         {
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            WhiskeyUtil.MipiWrite(0x05, 0x10);
+            WhiskeyUtil.MipiWrite(0x05, 0x28);
+
             Info_textBox.Text = "";
             //Read Gamma Parameter Setting from Gamma Register to Tie_ParameterSettingt[0~28]
-            GammaRegister_to_WTie_ParameterSetting();
+            //GammaRegister_to_WTie_ParameterSetting();
+            OTM1911A_GammaReadRegister(0xE100);
+
 
             //從Tie_ParameterSetting的內容顯示於Form上的Text
             Tie_ParameterSetting_to_LoadVP_TextData();
 
             Info_textBox.Text = "從IC讀出至控制盤 Done!";
+
+            //WhiskeyUtil.MipiWrite(0x05, 0x29);
+            //WhiskeyUtil.ImageFill(0, 255, 0);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1065,9 +992,11 @@ namespace K_80
             double diff_min = EstimateBrightness_Max;
             double diff_min_last = EstimateBrightness_Max;
             byte tie_gray = 0;
+            byte flag=0;
 
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
-            string rdstr = null;
+
+            OTM1911A_GammaReadRegister(0xE100);
 
             Tie_Actual_Brightness[0] = EstimateBrightness_Max;
 
@@ -1084,9 +1013,13 @@ namespace K_80
                 Tie_Estimate_Brightness[tie] = EstimateBrightness[VP_index[tie]];
             }
 
+            double min = 0, temp = 0 ;
             //依序點綁點處的灰階 並且用K80量測
             for (int tie = 0; tie < 29; tie++) //tir=0 時亮度最亮
             {
+                min = EstimateBrightness_Max;
+                ReTry:
+
                 tie_gray = Convert.ToByte(255-VP_index[tie]);
 
                 WhiskeyUtil.ImageFill(tie_gray, tie_gray, tie_gray);
@@ -1094,34 +1027,187 @@ namespace K_80
 
                 Tie_Actual_Brightness[tie] = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
 
-                
+                //請注意使用OTM1911A_GammaSetRegisterMapping 功能時 其TieNum為1~29 從1開始計算
+                //因此tie使用時 與OTM1911A的TieNum 請注意序列安排
 
+                temp = Math.Abs(Tie_Actual_Brightness[tie] - Tie_Estimate_Brightness[tie]);
 
+                if (min > temp)
+                {
+                    min = temp;
+                    if (Tie_Actual_Brightness[tie] > Tie_Estimate_Brightness[tie])
+                    {//實測亮度 大於標準答案亮度 處置~>應該調降亮度
+                        if(flag == 0x10)//表示剛剛為亮度反折點
+                        {   goto nextTest;  }
+                        else
+                        {
+                            OTM1911A_GammaSetRegisterMapping(0xE100, tie + 1, GP_OTM1911A[tie + 1]++);
+                            flag = 0x01;
+                            goto ReTry;
+                        }
+                        
+                    }
+                    else if(Tie_Actual_Brightness[tie] < Tie_Estimate_Brightness[tie])
+                    {//實測亮度 小於標準答案亮度 處置~>應該提高亮度
+                        if (flag == 0x01)//表示剛剛為亮度反折點
+                        {   goto nextTest;  }
+                        else
+                        {
+                            OTM1911A_GammaSetRegisterMapping(0xE100, tie + 1, GP_OTM1911A[tie + 1]--);
+                            flag = 0x10;
+                            goto ReTry;
+                        }
+                    }
+                    else//實測亮度 = 標準答案亮度 進行下一個綁點測試
+                    {
+                        OTM1911A_GammaSetRegisterMapping(0xE100, tie + 1, GP_OTM1911A[tie + 1]);
+                        goto nextTest;
+                    }
+                }
+                nextTest:
+
+                flag = 0;
             }
-
         }
 
-        private void SetGammaRegister(int StartAdr,int GammaValue, int GRP)//GammaValue:0~1023可調整 值越小越亮  GRP:想控制綁點 1~29共29個
+        
+        private void OTM1911A_GammaSetRegisterMapping(int StartAddr, int TieNum, int GammaValueSet)
         {
+            byte[] RegData = new byte[37];
+            int StartAddress = (StartAddr & 0xFF00);
+            byte[] receiver = new byte[37];
+            byte addr_MSB = 0;
+
+
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
-            string rdstr = null;
 
-            int[] Regisrer_Data = new int[37];
-            byte AdrH = Convert.ToByte((StartAdr >>8) & 0xFF);
-            byte AdrL = Convert.ToByte(StartAdr & 0xFF);
+            OTM1911A_GammaReadRegister(Convert.ToUInt16(StartAddr));
 
-
-            WhiskeyUtil.MipiWrite(0x13, 0x00, AdrL);
-            WhiskeyUtil.MipiRead(AdrL, 1, ref rdstr);
-            Regisrer_Data[] = 
+            //STEP3: 針對想設定的值去設定
+            GP_OTM1911A[TieNum] = Convert.ToUInt16(GammaValueSet);
 
 
+            //STEP4: 把GP[1]~GP[29] 填到預備要寫入暫存器的空間(20170830驗證功能正確)
+            int cnt = 1;
+            int temp1 = 0, temp2 = 0;
+
+            int MSB = 0;
+            for (int i = 0; i < 7; i++)
+            {
+                MSB = 0;
+                temp1 = GP_OTM1911A[cnt] & 0x00FF;
+                temp2 = GP_OTM1911A[cnt] & 0x0F00;
+                temp2 >>= 8;
+                MSB = temp2 & 0x03;
+                RegData[(4 + (i * 5))] = Convert.ToByte(MSB);
+                RegData[(0 + (i * 5))] = Convert.ToByte(temp1);
+                cnt++;
+
+                temp1 = GP_OTM1911A[cnt] & 0x00FF;
+                temp2 = GP_OTM1911A[cnt] & 0x0F00;
+                temp2 >>= 8;
+                MSB = MSB + ((temp2 & 0x03)<<2);
+                RegData[(4 + (i * 5))] = Convert.ToByte(MSB);
+                RegData[(1 + (i * 5))] = Convert.ToByte(temp1);
+                cnt++;
+
+                temp1 = GP_OTM1911A[cnt] & 0x00FF;
+                temp2 = GP_OTM1911A[cnt] & 0x0F00;
+                temp2 >>= 8;
+                MSB = MSB + ((temp2 & 0x03) << 4);
+                RegData[(4 + (i * 5))] = Convert.ToByte(MSB);
+                RegData[(2 + (i * 5))] = Convert.ToByte(temp1);
+                cnt++;
+
+                temp1 = GP_OTM1911A[cnt] & 0x00FF;
+                temp2 = GP_OTM1911A[cnt] & 0x0F00;
+                temp2 >>= 8;
+                MSB = MSB + ((temp2 & 0x03) << 6);
+                RegData[(4 + (i * 5))] = Convert.ToByte(MSB);
+                RegData[(3 + (i * 5))] = Convert.ToByte(temp1);
+                cnt++;
+            }
+
+            temp1 = GP_OTM1911A[29] & 0x00FF;
+            temp2 = GP_OTM1911A[29] & 0x0F00;
+            temp2 >>= 8;
+            MSB = temp2 & 0x03;
+            RegData[36] = Convert.ToByte(MSB);
+            RegData[35] = Convert.ToByte(temp1);
+
+            //STEP5: 將預備要寫入暫存器的空間 填入IC中的暫存器
+            for (byte reg = 0x00; reg < 0x25; reg++)
+            {
+                WhiskeyUtil.MipiWrite(0x23, 0x00, reg);
+                WhiskeyUtil.MipiWrite(0x23, addr_MSB, RegData[reg]);
+            }
+        }
+
+        private void OTM1911A_GammaReadRegister(UInt16 Start_address)
+        {
+            byte[] RegData = new byte[38];
+            int StartAddress = (Start_address & 0xFF00);
+            byte[] receiver = new byte[38];
+            byte addr_MSB = 0;
+
+
+            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+
+            //STEP1: 從對應的暫存器中讀回暫存器目前設定值
+            addr_MSB = Convert.ToByte((StartAddress >>= 8));
 
 
             WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
-            WhiskeyUtil.MipiRead(0xE2, 1, ref rdstr);
+            //Thread.Sleep(30);
+            WhiskeyUtil.MipiRead(0xE1, 38, ref receiver);
+            //WhiskeyUtil.MipiRead(0x0A, 1, ref receiver);
+            //Thread.Sleep(30);
+            for (int i = 0; i < 38; i++)
+            {
+                RegData[i] = receiver[i];
+            }
+            Thread.Sleep(1000);
 
+            //STEP2: 針對暫存器內容 轉成綁點GP內容值
+
+            int cnt = 1;
+            int temp1 = 0, temp2 = 0;
+            for (int i = 0; i < 7; i++)
+            {
+                temp1 = RegData[(4 + (i * 5))];
+                temp1 = temp1 & 0x03;
+                temp2 = RegData[(0 + (i * 5))];
+                temp1 = (temp1 << 8) + temp2;
+                GP_OTM1911A[cnt] = Convert.ToUInt16(temp1); cnt++;
+
+                temp1 = RegData[(4 + (i * 5))];
+                temp1 = (temp1 & 0x0C) >> 2;
+                temp2 = RegData[(1 + (i * 5))];
+                temp1 = (temp1 << 8) + temp2;
+                GP_OTM1911A[cnt] = Convert.ToUInt16(temp1); cnt++;
+
+                temp1 = RegData[(4 + (i * 5))];
+                temp1 = (temp1 & 0x30) >> 4;
+                temp2 = RegData[(2 + (i * 5))];
+                temp1 = (temp1 << 8) + temp2;
+                GP_OTM1911A[cnt] = Convert.ToUInt16(temp1); cnt++;
+
+                temp1 = RegData[(4 + (i * 5))];
+                temp1 = (temp1 & 0xC0) >> 6;
+                temp2 = RegData[(3 + (i * 5))];
+                temp1 = (temp1 << 8) + temp2;
+                GP_OTM1911A[cnt] = Convert.ToUInt16(temp1); cnt++;
+            }
+            temp1 = RegData[36];
+            temp1 = temp1 & 0x03;
+            temp2 = RegData[35];
+            temp1 = (temp1 << 8) + temp2;
+            GP_OTM1911A[29] = Convert.ToUInt16(temp1);
+            //GP[1]~GP[29] 即為每個綁點的值
         }
+
+
+
 
 
         private void deviceTimer_Tick(object sender, EventArgs e)
@@ -1233,24 +1319,29 @@ namespace K_80
         private void CMD2_and_FOCAL_Enable()
         {
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            byte[] RdVal = new byte[6];
             string rdstr = null;
             uint test = 0;
 
             WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x19, 0x11, 0x01);
-            //SL_Comm_Base.SPI_ReadReg(0xb7, 2, ref test);
-            //SL_Comm_Base.SPI_ReadReg(0xbb, 2, ref test);
-            //SL_Comm_Base.SPI_ReadReg(0xbc, 2, ref test);
-            WhiskeyUtil.MipiWrite(0x13, 0x00, 0x80);
-            WhiskeyUtil.MipiWrite(0x13, 0xFF, 0x19);
-            WhiskeyUtil.MipiWrite(0x13, 0x00, 0x81);
-            WhiskeyUtil.MipiWrite(0x13, 0xFF, 0x11);
 
-            WhiskeyUtil.MipiWrite(0x13, 0x00, 0x00);
-            WhiskeyUtil.MipiWrite(0x13, 0xD0, 0xAA);
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x80);
+            WhiskeyUtil.MipiWrite(0x23, 0xFF, 0x19);
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x81);
+            WhiskeyUtil.MipiWrite(0x23, 0xFF, 0x11);
+
+
+
+
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            WhiskeyUtil.MipiWrite(0x23, 0xD0, 0x78);
 
             WhiskeyUtil.MipiWrite(0x00, 0x00);
-            WhiskeyUtil.MipiRead(0xF8, 6, ref rdstr); // rdstr: ID1: 0x40h
-            Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
+            WhiskeyUtil.MipiRead(0xF8, 6, ref RdVal); // rdstr: ID1: 0x40h
+            //Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
+
+            WhiskeyUtil.MipiRead(0x0A, 1, ref rdstr); // rdstr: ID1: 0x40h
+
 
             WhiskeyUtil.MipiWrite(0x00, 0x00);
             WhiskeyUtil.MipiRead(0xDA, 1, ref rdstr); // rdstr: ID1: 0x40h
@@ -1290,57 +1381,79 @@ namespace K_80
             Thread.Sleep(100);
             WhiskeyUtil.GpioCtrl(0x11, 0xff, 0xff);
 
+            
+
+
+
             CMD2_and_FOCAL_Enable();
+
+
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            WhiskeyUtil.MipiRead(0xF0, 1, ref rdstr);
+
+
+
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            WhiskeyUtil.MipiWrite(0x13, 0xE1, 0x0A);
+
+
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            WhiskeyUtil.MipiRead(0xE1, 1, ref rdstr);
+
+
+
+
+
 
             WhiskeyUtil.MipiWrite(0x05, 0x11);
             Thread.Sleep(100);
             WhiskeyUtil.MipiWrite(0x05, 0x29);
 
 
-            WhiskeyUtil.MipiRead(0x0a, 1, ref rdstr); // rdstr: 0x9c
+            //WhiskeyUtil.MipiRead(0x0a, 1, ref rdstr); // rdstr: 0x9c
 
-            WhiskeyUtil.ImageFill(0, 255, 0);
-            Thread.Sleep(1000);
-            WhiskeyUtil.ImageFill(255, 0, 0);
-            Thread.Sleep(1000);
-            WhiskeyUtil.ImageFill(0, 0, 255);
-            Thread.Sleep(1000);
+            //WhiskeyUtil.ImageFill(0, 255, 0);
+            //Thread.Sleep(1000);
+            //WhiskeyUtil.ImageFill(255, 0, 0);
+            //Thread.Sleep(1000);
+            //WhiskeyUtil.ImageFill(0, 0, 255);
+            //Thread.Sleep(1000);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             Info_textBox.Text = "";
 
+            OTM1911A_GammaSetRegisterMapping(0xE100,0,0);
+
+            //SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            //string rdstr = null;
+
+            ////Display OFF
+            //WhiskeyUtil.MipiWrite(0x05, 0x28);
+            //WhiskeyUtil.MipiWrite(0x05, 0x10);
 
 
-            SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
-            string rdstr = null;
+            //WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            //WhiskeyUtil.MipiRead(0xE1, 1, ref rdstr);
+            //Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
 
-            //Display OFF
-            WhiskeyUtil.MipiWrite(0x05, 0x28);
-            WhiskeyUtil.MipiWrite(0x05, 0x10);
+            ////WhiskeyUtil.MipiWrite(0x13, 0x00, 0x01);
+            ////WhiskeyUtil.MipiWrite(0x13, 0xE0, 0x01);
 
-
-            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
-            WhiskeyUtil.MipiRead(0xE1, 1, ref rdstr);
-            Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
-
-            //WhiskeyUtil.MipiWrite(0x13, 0x00, 0x01);
-            //WhiskeyUtil.MipiWrite(0x13, 0xE0, 0x01);
-
-            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
-            WhiskeyUtil.MipiRead(0xE2, 1, ref rdstr);
-            Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
+            //WhiskeyUtil.MipiWrite(0x23, 0x00, 0x00);
+            //WhiskeyUtil.MipiRead(0xE2, 1, ref rdstr);
+            //Info_textBox.Text += rdstr + "\r\n"; rdstr = null;
 
 
-            //Display On
-            WhiskeyUtil.MipiWrite(0x05, 0x11);
-            WhiskeyUtil.MipiWrite(0x05, 0x29);
-            WhiskeyUtil.ImageFill(0, 255, 0);
-            Thread.Sleep(1000);
+            ////Display On
+            //WhiskeyUtil.MipiWrite(0x05, 0x11);
+            //WhiskeyUtil.MipiWrite(0x05, 0x29);
+            //WhiskeyUtil.ImageFill(0, 255, 0);
+            //Thread.Sleep(1000);
 
-            //Display OFF
-            
+            ////Display OFF
+
         }
 
         private void display_off()

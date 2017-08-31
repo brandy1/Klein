@@ -215,7 +215,7 @@ namespace SL_Tek_Studio_Pro
             C2_2 = SL_Comm_Base.SL_DataDummyRd();
             SL_Comm_Base.UnBgeSel();
 
-            Thread.Sleep(10);
+            Thread.Sleep(50);
 
             SL_Comm_Base.SL_CommBase_WriteReg(0xb3, SL_Comm_Base.ChipSel());
             SL_Comm_Base.SPI_AddrWrNoCs(0xc6);
@@ -225,7 +225,7 @@ namespace SL_Tek_Studio_Pro
             C6_2 = SL_Comm_Base.SL_DataDummyRd();
             SL_Comm_Base.UnBgeSel();
 
-            Thread.Sleep(10);
+            Thread.Sleep(150);
 
             Ready = (byte)(C6_1 & 0x01);
             if (Ready == 1)
@@ -371,7 +371,7 @@ namespace SL_Tek_Studio_Pro
             if (HS > 50.1 && HS <= 100) FR = 0xC2;
 
             Lane = (LaneNum >= 1 && LaneNum <= 4) ? (byte)(LaneNum - 1) : (byte)0x03;
-            LpVal = (byte)(MipiSpeed / 8 / 6);
+            LpVal = 7;//(byte)(MipiSpeed / 8 / 8);/**XXX**/  
 
             SL_Comm_Base.SPI_WriteReg(0xb9, 0x00, 0x00); //PLL disable
             SL_Comm_Base.SPI_WriteReg(0xb8, 0x00, 0x00); //VC(Virtual ChannelID) Control Register
