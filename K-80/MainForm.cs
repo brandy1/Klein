@@ -807,8 +807,8 @@ namespace K_80
             //透過K80量測出實測亮度 之後存放於Tie_Actual_Brightness[] 
             //再與Gamma2.2曲線推估的標準亮度 EstimateBrightness[] 進行比較
 
-            TieRegisterSetting[0] = 0; // 直接把綁點0(最亮)位置 直接寫入亮度最大值
-            Tie_Actual_Brightness[0] = EstimateBrightness_Max;//實測綁點位置0 亮度直接設定亮度最大值
+            //TieRegisterSetting[0] = 0; // 直接把綁點0(最亮)位置 直接寫入亮度最大值
+            //Tie_Actual_Brightness[0] = EstimateBrightness_Max;//實測綁點位置0 亮度直接設定亮度最大值
 
 
             //★步驟3:先把綁點推算的亮度從EstimateBrightness DataBase放到變數Tie_Estimate_Brightness去
@@ -827,7 +827,6 @@ namespace K_80
                 track_flag[0] = 0x00;//本次測試的Flag狀態 清除
                 track_flag[1] = 0x00;//上次測試的Flag狀態 清除
 
-
                 RETRY:
 
                 //面板點目前要測試亮度的灰階
@@ -837,7 +836,7 @@ namespace K_80
 
                 //K80量測亮度表現
                 Tie_Actual_Brightness[tie] = Math.Round(K80_Trigger_Measurement(dive), 4);//取到小數點第4位
-
+                
 
                 if (Tie_Actual_Brightness[tie] > Tie_Estimate_Brightness[tie])
                 {//本次實際量測亮度比推算的亮度較亮 處置~暫存器-- 讓亮度降低
@@ -855,13 +854,13 @@ namespace K_80
                     {
                         //表示連續兩次調整暫存器後亮度測試都偏亮
                         //處置方式 請持續將暫存器設置變大以 降低亮度 
-                        temp[tie]++;
+                        
                         if (temp[tie] >= 1023)
                         {
                             TieRegisterSetting[tie] = temp[tie];
                             goto TieTestDone;
                         }
-
+                        temp[tie]++;
                         //單獨針對想改變的Gamma暫存器設定副程式
                         WriteGammaPartialSetting_to_SSD2130(tie, temp[tie], TieRegisterSetting);
 
@@ -885,13 +884,13 @@ namespace K_80
                     else if(track_flag[1] == 0x10)
                     {   //表示連續兩次調整暫存器後亮度測試都偏暗
                         //處置方式 請持續將暫存器設置變小以 提高亮度 
-                        temp[tie]--;
+                        
                         if(temp[tie] <= 0)
                         {
                             TieRegisterSetting[tie] = temp[tie];
                             goto TieTestDone;
                         }
-
+                        temp[tie]--;
                         //單獨針對想改變的Gamma暫存器設定副程式
                         WriteGammaPartialSetting_to_SSD2130(tie, temp[tie], TieRegisterSetting);
                         
@@ -944,7 +943,7 @@ namespace K_80
             //★步驟6:將選定的值 寫入暫存器中
             //Load Gamma Parameter Setting from Tie_ParameterSettingt[0~28] to Gamma Register 
             WriteGammaSettingAlltheSame_to_SSD2130(TieRegisterSetting);
-            
+
             //從Tie_ParameterSetting的內容顯示於Form上的Text
             Tie_ParameterSetting_to_LoadVP_TextData(TieRegisterSetting);
             Info_textBox.AppendText("從控制盤載入IC暫存器完畢!");
