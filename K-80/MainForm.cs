@@ -1179,7 +1179,7 @@ namespace K_80
 
             WhiskeyUtil.SetMipiVideo(1920, 1080, 60, 16, 16, 30, 30, 4, 4);
 
-            WhiskeyUtil.SetMipiDsi(4, 700, "burst");
+            WhiskeyUtil.SetMipiDsi(4, 700, "syncpulse");
             uint data = 0;
             SL_Comm_Base.SPI_ReadReg(0xbb, ref data, 2);
 
@@ -1204,8 +1204,8 @@ namespace K_80
             WHISKY_FPGA_InitialSetting();//Include FPGA initial、2828 initial、DSV initial and Driver reset setting 
 
 
-            //OTT1911A_CMD2_and_PassWord_Enable();
-            SSD2123_InitialCode_forAUO_nmosTypeA();
+            OTT1911A_CMD2_and_PassWord_Enable();
+            //SSD2123_InitialCode_forAUO_nmosTypeA();
 
 
             WhiskeyUtil.MipiWrite(0x05, 0x11);//Sleep-Out
@@ -1573,12 +1573,6 @@ namespace K_80
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
 
             
-            WhiskeyUtil.ImageFill(255, 0, 0);
-            Thread.Sleep(1000);
-            WhiskeyUtil.ImageFill(0, 0, 255);
-            Thread.Sleep(1000);
-            WhiskeyUtil.ImageFill(0, 255, 0);
-            Thread.Sleep(1000);
             WhiskeyUtil.ImageFill(255, 255, 0);
             Thread.Sleep(1000);
         }
