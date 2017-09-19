@@ -149,7 +149,7 @@ namespace SL_Tek_Studio_Pro
             C6_2 = SL_Comm_Base.SL_DataDummyRd();
             SL_Comm_Base.UnBgeSel();
 
-            Thread.Sleep(20);
+            Thread.Sleep(10);
 
             Ready = (byte)(C6_1 & 0x01);
 
@@ -231,7 +231,7 @@ namespace SL_Tek_Studio_Pro
             C6_2 = SL_Comm_Base.SL_DataDummyRd();
             SL_Comm_Base.UnBgeSel();
 
-            Thread.Sleep(20);
+            Thread.Sleep(10);
 
             Ready = (byte)(C6_1 & 0x01);
             if (Ready == 1)
@@ -299,7 +299,7 @@ namespace SL_Tek_Studio_Pro
             C2_2 = SL_Comm_Base.SL_DataDummyRd();
             SL_Comm_Base.UnBgeSel();
 
-            Thread.Sleep(20);
+            Thread.Sleep(10);
 
             SL_Comm_Base.SL_CommBase_WriteReg(0xb3, SL_Comm_Base.ChipSel());
             SL_Comm_Base.SPI_AddrWrNoCs(0xc6);
@@ -309,7 +309,7 @@ namespace SL_Tek_Studio_Pro
             C6_2 = SL_Comm_Base.SL_DataDummyRd();
             SL_Comm_Base.UnBgeSel();
 
-            Thread.Sleep(20);
+            Thread.Sleep(10);
 
             Ready = (byte)(C6_1 & 0x01);
             if (Ready == 1)
@@ -489,6 +489,8 @@ namespace SL_Tek_Studio_Pro
 
         }
 
+
+
         public bool ImageShow(string FilePath)
         {
             SL_Img_Lib ImgLib = new SL_Img_Lib();
@@ -517,17 +519,91 @@ namespace SL_Tek_Studio_Pro
             return true;
         }
 
-        public bool i2cWrite(byte Enable, byte i2cAddr, byte chipAddr, byte i2cData)
+        public bool i2cRead(byte i2c_W_Addr, byte ICAddr,byte Rdnum, ref string RdStr)
+        {
+            byte outPort = 0;
+            byte i2c_R_Addr = (byte)(i2c_W_Addr + 1) ;
+            SL_Comm_Base.SL_CommBase_ReadReg(0xa0, ref outPort);
+            SL_Comm_Base.SL_CommBase_WriteReg(0xa0, 0x20);//i2c output
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9c, 0x32, 0x32);//i2c 400k
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9d, 0x00, 0x00, Rdnum);//i2c read count
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);//i2c Start
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, i2c_W_Addr);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, ICAddr);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);//i2c stop
+
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);//i2c Start
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, i2c_R_Addr);
+            SL_Comm_Base.SL_AddrWrite(0x83);
+            for (int i = 0; i < Rdnum; i++) { RdStr += "0x" + Convert.ToString(SL_Comm_Base.SL_DataDummyRd(), 16); }
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);//i2c stop
+            SL_Comm_Base.SL_CommBase_WriteReg(0xa0, outPort);
+            return true;
+        }
+
+        public bool pmicWrite(byte Enable,  byte ChipReg, byte Data,ref string RdStr)
         {
             SL_Comm_Base.SL_CommBase_WriteReg(0x9c, 0x32, 0x32);//i2c 400k
             SL_Comm_Base.SL_CommBase_WriteReg(0x9d, 0x00, 0x00, 0x01);//i2c read count
             SL_Comm_Base.SL_CommBase_WriteReg(0xbd, 0x00); //pmic disable
             SL_Comm_Base.SL_CommBase_WriteReg(0xbd, Enable); //pmic access enable
-            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x00, 0x02); //i2c start
-            SL_Comm_Base.SL_CommBase_WriteReg(0x81, i2cAddr); //slave addr,wr
-            SL_Comm_Base.SL_CommBase_WriteReg(0x81, chipAddr); // addr
-            SL_Comm_Base.SL_CommBase_WriteReg(0x81, i2cData); //data
-            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x00, 0x01); //i2c stop
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02); //i2c start
+            SL_Comm_Base.SL_CommBase_WriteReg(0x81, 0x7c); //slave addr,wr
+            SL_Comm_Base.SL_CommBase_WriteReg(0x81, ChipReg); // addr
+            SL_Comm_Base.SL_CommBase_WriteReg(0x81, Data); //data
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01); //i2c stop
+            return true;
+        }
+
+        public bool pmicWrite(byte Enable, byte ChipReg, byte Data)
+        {
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9c, 0x32, 0x32);//i2c 400k
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9d, 0x00, 0x00, 0x01);//i2c read count
+            SL_Comm_Base.SL_CommBase_WriteReg(0xbd, 0x00); //pmic disable
+            SL_Comm_Base.SL_CommBase_WriteReg(0xbd, Enable); //pmic access enable
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02); //i2c start
+            SL_Comm_Base.SL_CommBase_WriteReg(0x81, 0x7c); //slave addr,wr
+            SL_Comm_Base.SL_CommBase_WriteReg(0x81, ChipReg); // addr
+            SL_Comm_Base.SL_CommBase_WriteReg(0x81, Data); //data
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01); //i2c stop
+            return true;
+        }
+
+        public bool i2cWrite(byte i2cAddr,byte data,byte data1)
+        {
+            byte[] i2cdata = new byte[2];
+            i2cdata[0] = data;
+            i2cdata[1] = data1;
+            return i2cWrite(i2cAddr, i2cdata);
+        }
+
+        public bool i2cWrite(byte i2cAddr, byte data, byte data1, byte data2)
+        {
+            byte[] i2cdata = new byte[3];
+            i2cdata[0] = data;
+            i2cdata[1] = data1;
+            i2cdata[2] = data1;
+            return i2cWrite(i2cAddr, i2cdata);
+        }
+
+        public bool i2cWrite(byte i2cAddr, byte[] i2cData)
+        {
+            byte outPort = 0;
+            SL_Comm_Base.SL_CommBase_ReadReg(0xa0, ref outPort);
+            SL_Comm_Base.SL_CommBase_WriteReg(0xa0, 0x20);//i2c output
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9c, 0x32, 0x32);//i2c 400k
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9d, 0x00, 0x00, 0x01);//i2c read count
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x02);//i2c Start
+            SL_Comm_Base.SL_CommBase_WriteReg(0x80, i2cAddr);
+            foreach (byte Data in i2cData) SL_Comm_Base.SL_CommBase_WriteReg(0x81, Data);
+            SL_Comm_Base.SL_CommBase_WriteReg(0x9b, 0x01);//i2c Start
+            SL_Comm_Base.SL_CommBase_WriteReg(0xa0, outPort);
+            return true;
+        }
+
+        public bool UsbCmdWrite(byte[] xferData)
+        {
+            SL_Comm_Base.SL_CommBase_WriteCommand(xferData, xferData.Length);
             return true;
         }
 
