@@ -1186,15 +1186,25 @@ namespace K_80
             DSV_Setting();
 
             WhiskeyUtil.GpioCtrl(0x11, 0xff, 0xff); //GPIO RESET
+            Thread.Sleep(20);
             WhiskeyUtil.GpioCtrl(0x11, 0x00, 0x00);
-            Thread.Sleep(100);
+            Thread.Sleep(5);
             WhiskeyUtil.GpioCtrl(0x11, 0xff, 0xff);
+
+            data = 1;
+
+
+
         }
 
 
         private void button3_Click(object sender, EventArgs e)
         {
             this.button3.ForeColor = Color.Green;
+            byte[] RdVal = new byte[1];
+
+            string textdata = null;
+
             Application.DoEvents();
 
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
@@ -1204,177 +1214,284 @@ namespace K_80
             WHISKY_FPGA_InitialSetting();//Include FPGA initial、2828 initial、DSV initial and Driver reset setting 
 
 
-            OTT1911A_CMD2_and_PassWord_Enable();
-            //SSD2123_InitialCode_forAUO_nmosTypeA();
+            //OTT1911A_CMD2_and_PassWord_Enable();
+            SSD2123_InitialCode_forAUO_nmosTypeA();
 
-
+            WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x00);
             WhiskeyUtil.MipiWrite(0x05, 0x11);//Sleep-Out
             Thread.Sleep(100);
             WhiskeyUtil.MipiWrite(0x05, 0x29);//Display-On
 
+
+            
+
+            WhiskeyUtil.MipiRead(0x0A, 1, ref RdVal);
+            textdata = "Sleep-Out Display-On Power Status:" + Convert.ToString(RdVal[0]) + "\r\n";
+            Info_textBox.AppendText(textdata);
+
+
             this.button3.ForeColor = Color.Black;
+            Info_textBox.AppendText("Initial Code Done!! \n\r ");
+
+            WhiskeyUtil.ImageFill(0, 255, 0);
         }
 
 
         private void SSD2123_InitialCode_forAUO_nmosTypeA()
         {
             SL_WhiskyComm_Util WhiskeyUtil = new SL_WhiskyComm_Util();
+            byte[] RdVal = new byte[1];
+
+            string textdata = null;
+            int cnt = 0;
+
+            textdata = "MiPi Read IC Power Status= ";
+
             WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x10);
-            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x14);            //[5:0]t8_de
-            WhiskeyUtil.MipiWrite(0x23, 0x01, 0x00);            //[5:0]t7p_de
-            WhiskeyUtil.MipiWrite(0x23, 0x02, 0x0C);            //[7:4]t9p_de, [3:0]t9_de
-            WhiskeyUtil.MipiWrite(0x23, 0x03, 0x2B);            //[5:0]t7_de
-            WhiskeyUtil.MipiWrite(0x23, 0x54, 0x0C);            //[5:0]SD-CKH  Setup time, refer to t9_de
-            WhiskeyUtil.MipiWrite(0x23, 0x05, 0x11);            //[7:4]ckh_vbp, [3:0]ckh_vfp
-            WhiskeyUtil.MipiWrite(0x23, 0x0D, 0x82);            //[7]CKH_VP_Full, [6:5]CKH2_RGB_Sel, [4]CKH_VP_REG_EN, [3]CKH_RGB_Zigazg, [2]CKH_321_Frame, [1]CKH_321_Line, [0]CKH_321
+            WhiskeyUtil.MipiWrite(0x23, 0x0E, 0x80);//CKH_3to1
 
-            WhiskeyUtil.MipiWrite(0x23, 0x20, 0x41);            //[7:6]STV_A_Rise[6:5], [4:0]STV_A_Rise[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x21, 0x29);            //[5]FTI_A_Rise_mode, [4]FTI_A_Fall_mode, [3:2]Phase_STV_A, [1:0]Overlap_STV_A
-            WhiskeyUtil.MipiWrite(0x23, 0x22, 0x62);            //[7:0]FTI_A_Rise
-            WhiskeyUtil.MipiWrite(0x23, 0x23, 0x62);            //[7:0]FTI_A_Fall
-            WhiskeyUtil.MipiWrite(0x23, 0x25, 0x02);            //[7:6]STV_B_Rise[6:5], [4:0]STV_B_Rise[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x26, 0x2E);            //[5]FTI_B_Rise_mode, [4]FTI_B_Fall_mode, [3:2]Phase_STV_B, [1:0]Overlap_STV_B
-            WhiskeyUtil.MipiWrite(0x23, 0x27, 0x62);            //[7:0]FTI_B_Rise
-            WhiskeyUtil.MipiWrite(0x23, 0x28, 0x62);            //[7:0]FTI_B_Fall
-            WhiskeyUtil.MipiWrite(0x23, 0x2A, 0x02);            //[7:6]STV_C_Rise[6:5], [4:0]STV_C_Rise[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x2B, 0x29);            //[5]FTI_C_Rise_mode, [4]FTI_C_Fall_mode, [3:2]Phase_STV_C, [1:0]Overlap_STV_C
-            WhiskeyUtil.MipiWrite(0x23, 0x2C, 0x62);            //[7:0]FTI_C_Rise
-            WhiskeyUtil.MipiWrite(0x23, 0x2D, 0x62);            //[7:0]FTI_C_Fall
-
-            WhiskeyUtil.MipiWrite(0x23, 0x30, 0x81);            //[7]CLK_A_Rise[5], [4:0]CLK_A_Rise[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x31, 0x01);            //[7]CLK_A_Fall[5], [4:0]CLK_A_Fall[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x32, 0x11);            //[7:4]Phase_CLK_A, [3:0]Overlap_CLK_A
-            WhiskeyUtil.MipiWrite(0x23, 0x33, 0x31);            //[7]CLK_A_inv, [6]CLK_A_stop_level, [5] CLK_A_ct_mode, [4] CLK_A_Keep, [1]CLW_A_Rise_mode, [0]CLW_A_Fall_mode
-            WhiskeyUtil.MipiWrite(0x23, 0x34, 0x0C);            //[7:0]CLW_A1_Rise
-            WhiskeyUtil.MipiWrite(0x23, 0x35, 0x0C);            //[7:0]CLW_A2_Rise
-            WhiskeyUtil.MipiWrite(0x23, 0x36, 0x00);            //[7:0]CLW_A1_Fall
-            WhiskeyUtil.MipiWrite(0x23, 0x37, 0x00);            //[7:0]CLW_A2_Fall
-            WhiskeyUtil.MipiWrite(0x23, 0x38, 0x00);            //[7:0]CLK_A_Rise_eqt1
-            WhiskeyUtil.MipiWrite(0x23, 0x39, 0x00);            //[7:0]CLK_A_Rise_eqt2
-            WhiskeyUtil.MipiWrite(0x23, 0x3A, 0x00);            //[7:0]CLK_A_Fall_eqt1
-            WhiskeyUtil.MipiWrite(0x23, 0x3B, 0x00);            //[7:0]CLK_A_Fall_eqt2
-            WhiskeyUtil.MipiWrite(0x23, 0x3C, 0x20);            //[5]CLK_A_VBP_Keep_gs_Chg, [4]CLK_A_VFP_Keep_gs_Chg, [3:2]CLK_A_Keep_Pos2_gs_Chg, [1:0]CLK_A_Keep_Pos1_gs_Chg
-            WhiskeyUtil.MipiWrite(0x23, 0x3D, 0x08);            //[7:6]CLK_A4_Stop_Level_gs_Chg, [5:4] CLK_A3_Stop_Level_gs_Chg, [3:2]CLK_A2_Stop_Level_gs_Chg, [1:0]CLK_A1_Stop_Level_gs_Chg
-            WhiskeyUtil.MipiWrite(0x23, 0x3E, 0x00);            //[7]CLK_A_Keep_Pos1[5], [4:0]CLK_A_Keep_Pos1[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x3F, 0x00);            //[7]CLK_A_Keep_Pos2[5], [4:0]CLK_A_Keep_Pos2[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x40, 0x00);            //[7]CLK_B_Rise[5], [4:0]CLK_B_Rise[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x41, 0x00);            //[7]CLK_B_Fall[5], [4:0]CLK_B_Fall[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x42, 0x00);            //[7:4]Phase_CLK_B, [3:0]Overlap_CLK_B
-            WhiskeyUtil.MipiWrite(0x23, 0x43, 0x00);            //[7]CLK_B_inv, [6]CLK_B_stop_level, [5] CLK_B_ct_mode, [4] CLK_B_Keep, [1]CLW_B_Rise_mode, [0]CLW_B_Fall_mode
-            WhiskeyUtil.MipiWrite(0x23, 0x44, 0x00);            //[7:0]CLW_B1_Rise
-            WhiskeyUtil.MipiWrite(0x23, 0x45, 0x00);            //[7:0]CLW_B2_Rise
-            WhiskeyUtil.MipiWrite(0x23, 0x46, 0x00);            //[7:0]CLW_B1_Fall
-            WhiskeyUtil.MipiWrite(0x23, 0x47, 0x00);            //[7:0]CLW_B2_Fall
-            WhiskeyUtil.MipiWrite(0x23, 0x48, 0x00);            //[7:0]CLK_B_Rise_eqt1
-            WhiskeyUtil.MipiWrite(0x23, 0x49, 0x00);            //[7:0]CLK_B_Rise_eqt2
-            WhiskeyUtil.MipiWrite(0x23, 0x4A, 0x00);            //[7:0]CLK_B_Fall_eqt1
-            WhiskeyUtil.MipiWrite(0x23, 0x4B, 0x00);            //[7:0]CLK_B_Fall_eqt2
-            WhiskeyUtil.MipiWrite(0x23, 0x4C, 0x00);            //[5]CLK_B_VBP_Keep_gs_Chg, [4]CLK_B_VFP_Keep_gs_Chg, [3:2]CLK_B_Keep_Pos2_gs_Chg, [1:0]CLK_B_Keep_Pos1_gs_Chg
-            WhiskeyUtil.MipiWrite(0x23, 0x4D, 0x00);            //[7:6]CLK_B4_Stop_Level_gs_Chg, [5:4] CLK_B3_Stop_Level_gs_Chg, [3:2]CLK_B2_Stop_Level_gs_Chg, [1:0]CLK_B1_Stop_Level_gs_Chg
-            WhiskeyUtil.MipiWrite(0x23, 0x4E, 0x00);            //[7]CLK_B_Keep_Pos1[5], [4:0]CLK_B_Keep_Pos1[4:0]
-            WhiskeyUtil.MipiWrite(0x23, 0x4F, 0x00);            //[7]CLK_B_Keep_Pos2[5], [4:0]CLK_B_Keep_Pos2[4:0]
-
-            WhiskeyUtil.MipiWrite(0x23, 0x70, 0x06);            //GOUT_R_01_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x71, 0x0E);            //GOUT_R_02_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x72, 0x37);            //GOUT_R_03_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x73, 0x36);            //GOUT_R_04_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x74, 0x0A);            //GOUT_R_05_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x75, 0x2A);            //GOUT_R_06_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x76, 0x2A);            //GOUT_R_07_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x77, 0x10);            //GOUT_R_08_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x78, 0x11);            //GOUT_R_09_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x79, 0x00);            //GOUT_R_10_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x7A, 0x00);            //GOUT_R_11_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x7B, 0x00);            //GOUT_R_12_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x7C, 0x00);            //GOUT_R_13_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x7D, 0x30);            //GOUT_R_14_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x7E, 0x31);            //GOUT_R_15_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x7F, 0x32);            //GOUT_R_16_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x80, 0x06);            //GOUT_L_01_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x81, 0x0E);            //GOUT_L_02_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x82, 0x37);            //GOUT_L_03_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x83, 0x36);            //GOUT_L_04_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x84, 0x0A);            //GOUT_L_05_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x85, 0x2A);            //GOUT_L_06_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x86, 0x2A);            //GOUT_L_07_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x87, 0x10);            //GOUT_L_08_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x88, 0x11);            //GOUT_L_09_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x89, 0x00);            //GOUT_L_10_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x8A, 0x00);            //GOUT_L_11_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x8B, 0x00);            //GOUT_L_12_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x8C, 0x00);            //GOUT_L_13_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x8D, 0x30);            //GOUT_L_14_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x8E, 0x31);            //GOUT_L_15_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x8F, 0x32);            //GOUT_L_16_FW
-            WhiskeyUtil.MipiWrite(0x23, 0x90, 0x0E);            //GOUT_R_01_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x91, 0x06);            //GOUT_R_02_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x92, 0x37);            //GOUT_R_03_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x93, 0x36);            //GOUT_R_04_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x94, 0x0A);            //GOUT_R_05_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x95, 0x2A);            //GOUT_R_06_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x96, 0x2A);            //GOUT_R_07_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x97, 0x11);            //GOUT_R_08_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x98, 0x10);            //GOUT_R_09_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x99, 0x00);            //GOUT_R_10_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x9A, 0x00);            //GOUT_R_11_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x9B, 0x00);            //GOUT_R_12_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x9C, 0x00);            //GOUT_R_13_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x9D, 0x30);            //GOUT_R_14_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x9E, 0x31);            //GOUT_R_15_BW
-            WhiskeyUtil.MipiWrite(0x23, 0x9F, 0x32);            //GOUT_R_16_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA0, 0x0E);            //GOUT_L_01_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA1, 0x06);            //GOUT_L_02_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA2, 0x37);            //GOUT_L_03_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA3, 0x36);            //GOUT_L_04_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA4, 0x0A);            //GOUT_L_05_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA5, 0x2A);            //GOUT_L_06_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA6, 0x2A);            //GOUT_L_07_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA7, 0x11);            //GOUT_L_08_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA8, 0x10);            //GOUT_L_09_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xA9, 0x00);            //GOUT_L_10_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xAA, 0x00);            //GOUT_L_11_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xAB, 0x00);            //GOUT_L_12_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xAC, 0x00);            //GOUT_L_13_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xAD, 0x30);            //GOUT_L_14_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xAE, 0x31);            //GOUT_L_15_BW
-            WhiskeyUtil.MipiWrite(0x23, 0xAF, 0x32);            //GOUT_L_16_BW
-
-            WhiskeyUtil.MipiWrite(0x23, 0xC7, 0x22);            //[7:4]Blank_Frame_OPT1[3:0], [3:0]Blank_Frame_OPT2[3:0]
-            WhiskeyUtil.MipiWrite(0x23, 0xC8, 0x57);            //[7:6]SRC_Front_Blank_Sel, [5:4]SRC_Mid_Blank_Sel, [3:2]SRC_Back_Blank_Sel
-            WhiskeyUtil.MipiWrite(0x23, 0xCB, 0x00);            //[5:4]GOUT_LVD, [3:2]GOUT_SO, [1:0]GOUT_SI
-            WhiskeyUtil.MipiWrite(0x23, 0xD0, 0x11);            //[5:4]ONSeq_Ext, [2:0] OFFSeq_Ext
-            WhiskeyUtil.MipiWrite(0x23, 0xD2, 0x79);            //[7:6]CLK_B_ONSeq_Ext, [5]CLK_A_ONSeq_Ext, [4] STV_C_ONSeq_Ext, [3:2]STV_B_ONSeq_Ext, STV_A_ONSeq_Ext, 00:ori, 01:VGL, 10:VGH, 11:GND
-            WhiskeyUtil.MipiWrite(0x23, 0xD3, 0x19);            //[5:4]CKH_ONSeq_Ext, [3]CLK_D_ONSeq_Ext, [1:0]CLK_C_ONSeq_Ext
-            WhiskeyUtil.MipiWrite(0x23, 0xD4, 0x10);            //[6]RESET_ONSeq_Ext, [4]CLK_E_ONSeq_Ext, [2]GAS_ONSeq_Ext, [1:0]FWBW_ONSeq_Ext
-            WhiskeyUtil.MipiWrite(0x23, 0xD6, 0x00);            //[7:6]CLK_A_OFFSeq_Ext, [5:4]STV_B_OFFSeq_Ext, [3:2]STV_B_OFFSeq_Ext, [1:0]STV_A_OFFSeq_Ext
-            WhiskeyUtil.MipiWrite(0x23, 0xD7, 0x00);            //[7:6]CKH_OFFSeq_Ext, [5:4]CLK_D_OFFSeq_Ext, [3:2]CLK_C_OFFSeq_Ext, [1:0]CLK_B_OFFSeq_Ext
-            WhiskeyUtil.MipiWrite(0x23, 0xD8, 0x00);            //[7:6]CLK_E_OFFSeq_Ext, [4]Reset_OFFSet_Ext, [2]GAS_OFFSeq_Ext, [1:0]FWBW_OFFSeq_Ext
-            WhiskeyUtil.MipiWrite(0x23, 0xDA, 0xFF);            //[7]CKH_AbnSeq, [6]CLK_D_AbnSeq, [5]CLK_C_AbnSeq, [4]CLK_B_AbnSeq, [3]CLK_A_AbnSeq, [2]STV_C_AbnSeq, [1]STV_B_AbnSeq, [0]STV_A_AbnSeq, 0:VGL, 1:VGH
-            WhiskeyUtil.MipiWrite(0x23, 0xDB, 0x1A);            //[4]CLK_E_AbnSeq, [3]Reset_AbnSeq, [2]GAS_AbnSeq, [1:0]FWBW_AbnSeq, 00:norm, 01:VGL, 10:VGH
-            WhiskeyUtil.MipiWrite(0x23, 0xE0, 0x54);            //[7:6]STV_A_ONSeq, [5:4]STV_B_ONSeq, [3:2]STV_C_ONSeq, 00:ori, 01:VGL, 10:VGH, 11:GND
-            WhiskeyUtil.MipiWrite(0x23, 0xE1, 0x15);            //[6:4]CLK_A_ONSeq, [4:3]CLK_B_ONSeq, [1:0]CLK_C_ONSeq, 00:ori, 01:VGL, 10:VGH
-            WhiskeyUtil.MipiWrite(0x23, 0xE2, 0x19);            //[7:6]CLK_D_ONSeq, [5:4]CLK_E_ONSeq, [3:2]CKH_ONSeq, [1:0]FWBW_ONSeq
-            WhiskeyUtil.MipiWrite(0x23, 0xE3, 0x00);            //[3:2]GAS_ONSeq, [1:0]Reset_ONSeq
-            WhiskeyUtil.MipiWrite(0x23, 0xE4, 0x00);            //[7:6]STV_A_OFFSeq, [5:4]STV_B_OFFSeq, [3:2]STV_C_OFFSeq, [1:0]CLK_A_OFFSeq, 00:ori, 01:VGL, 10:VGH
-            WhiskeyUtil.MipiWrite(0x23, 0xE5, 0x00);            //[7:6]CLK_B_OFFSeq, [5:4]CLK_C_OFFSeq, [3:2]CLK_D_OFFSeq, [1:0]CLK_E_OFFSeq
-            WhiskeyUtil.MipiWrite(0x23, 0xE6, 0x10);            //[7:6]CKH_OFFSeq, [5:4]FWBW_OFFSeq, [3:2]Reset_OFFSet, [1:0]GAS_OFFSeq
-            WhiskeyUtil.MipiWrite(0x23, 0xE7, 0x75);            //[6]SRC_ONSeq_OPT, [5:4]VCM_ONSeq_OPT, [2]SRC_OFFSeq_OPT, [1:0]VCM_OFFSeq_OPT
-            WhiskeyUtil.MipiWrite(0x23, 0xEA, 0x00);            //[7:4]STV_Onoff_Seq_dly, [3:0]VCK_A_Onoff_Seq_dly
-            WhiskeyUtil.MipiWrite(0x23, 0xEB, 0x00);            //[7:4]VCK_B_Onoff_Seq_dly, [3:0]VCK_C_Onoff_Seq_dly
-            WhiskeyUtil.MipiWrite(0x23, 0xEC, 0x00);            //[7:4]CKH_Onoff_Seq_dly, [3:0]GAS_Onoff_Seq_dly
-            WhiskeyUtil.MipiWrite(0x23, 0xF2, 0x00);            //[7]GS_Sync_2frm_opt
-            WhiskeyUtil.MipiWrite(0x23, 0xF5, 0x43);            //[7:6]RST_Each_Frame, [5]GIP_RST_INV, [4]PWRON_RST_OPT, [3:0]GRST_WID_ONSeq_EXT[11:8]
-
-            WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x11);
-            WhiskeyUtil.MipiWrite(0x23, 0x60, 0x00);            // Panel Scheme Selection
-            WhiskeyUtil.MipiWrite(0x23, 0x62, 0x20);            // Column Inversion
-            WhiskeyUtil.MipiWrite(0x23, 0x65, 0x11);            //[6:4]VFP_CKH_DUM, [2:0]VBP_CKH_DUM
 
             WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x12);
-            WhiskeyUtil.MipiWrite(0x23, 0x11, 0x8D);            //[7]VGH_ratio, [5:0]VGHS, default:12v; AUO:8.5v; CSOT:9v
-            WhiskeyUtil.MipiWrite(0x23, 0x12, 0x0F);            //[7]VGL_ratio, [5:0]VGLS, default:-8v; AUO:-8v; CSOT:-7v
+            WhiskeyUtil.MipiWrite(0x23, 0x62, 0x8D);//AUO Panel No.09 Clk Traim
+
 
             WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x00);
+
+            WhiskeyUtil.MipiRead(0x0A, 1, ref RdVal);
+            textdata = textdata + Convert.ToString(RdVal[0]) + "\r\n";
+            Info_textBox.AppendText(textdata);
+
+
+
+
+
+
+
+            WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x21, 0x30, 0x10);
+            WhiskeyUtil.MipiWrite(0x23, 0x00, 0x14);  //[5:0]t8_de
+            WhiskeyUtil.MipiWrite(0x23, 0x01, 0x00);  //[5:0]t7p_de
+            WhiskeyUtil.MipiWrite(0x23, 0x02, 0x0C);  //[7:4]t9p_de, [3:0]t9_de
+            WhiskeyUtil.MipiWrite(0x23, 0x03, 0x2B);  //[5:0]t7_de
+
+            WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x21, 0x30, 0x11);
+            WhiskeyUtil.MipiWrite(0x23, 0x54, 0x0C);  //[5:0]SD-CKH  Setup time, refer to t9_de
+
+            WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x21, 0x30, 0x10);
+            WhiskeyUtil.MipiWrite(0x23, 0x05, 0x11);  //[7:4]ckh_vbp, [3:0]ckh_vfp
+            WhiskeyUtil.MipiWrite(0x23, 0x0D, 0x82); //[7]CKH_VP_Full, [6:5]CKH2_RGB_Sel, [4]CKH_VP_REG_EN, [3]CKH_RGB_Zigazg, [2]CKH_321_Frame, [1]CKH_321_Line, [0]CKH_321
+
+            WhiskeyUtil.MipiWrite(0x23, 0x20, 0x41);   //[7:6]STV_A_Rise[6:5], [4:0]STV_A_Rise[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x21, 0x29);   //[5]FTI_A_Rise_mode, [4]FTI_A_Fall_mode, [3:2]Phase_STV_A, [1:0]Overlap_STV_A
+            WhiskeyUtil.MipiWrite(0x23, 0x22, 0x62);   //[7:0]FTI_A_Rise
+            WhiskeyUtil.MipiWrite(0x23, 0x23, 0x62);   //[7:0]FTI_A_Fall
+            WhiskeyUtil.MipiWrite(0x23, 0x25, 0x02);   //[7:6]STV_B_Rise[6:5], [4:0]STV_B_Rise[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x26, 0x1E);   //[5]FTI_B_Rise_mode, [4]FTI_B_Fall_mode, [3:2]Phase_STV_B, [1:0]Overlap_STV_B
+            WhiskeyUtil.MipiWrite(0x23, 0x27, 0x0C);   //[7:0]FTI_B_Rise
+            WhiskeyUtil.MipiWrite(0x23, 0x28, 0x0C);   //[7:0]FTI_B_Fall
+            WhiskeyUtil.MipiWrite(0x23, 0x2A, 0x02);   //[7:6]STV_C_Rise[6:5], [4:0]STV_C_Rise[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x2B, 0x19);   //[5]FTI_C_Rise_mode, [4]FTI_C_Fall_mode, [3:2]Phase_STV_C, [1:0]Overlap_STV_C
+            WhiskeyUtil.MipiWrite(0x23, 0x2C, 0x0C);   //[7:0]FTI_C_Rise
+            WhiskeyUtil.MipiWrite(0x23, 0x2D, 0x0C);   //[7:0]FTI_C_Fall
+
+            WhiskeyUtil.MipiWrite(0x23, 0x30, 0x81);  //[7]CLK_A_Rise[5], [4:0]CLK_A_Rise[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x31, 0x01);  //[7]CLK_A_Fall[5], [4:0]CLK_A_Fall[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x32, 0x11);  //[7:4]Phase_CLK_A, [3:0]Overlap_CLK_A
+            WhiskeyUtil.MipiWrite(0x23, 0x33, 0x31);  //[7]CLK_A_inv, [6]CLK_A_stop_level, [5] CLK_A_ct_mode, [4] CLK_A_Keep, [1]CLW_A_Rise_mode, [0]CLW_A_Fall_mode
+            WhiskeyUtil.MipiWrite(0x23, 0x34, 0x0C);  //[7:0]CLW_A1_Rise
+            WhiskeyUtil.MipiWrite(0x23, 0x35, 0x0C);  //[7:0]CLW_A2_Rise
+            WhiskeyUtil.MipiWrite(0x23, 0x36, 0x00);  //[7:0]CLW_A1_Fall
+            WhiskeyUtil.MipiWrite(0x23, 0x37, 0x00);  //[7:0]CLW_A2_Fall
+            WhiskeyUtil.MipiWrite(0x23, 0x38, 0x00);  //[7:0]CLK_A_Rise_eqt1
+            WhiskeyUtil.MipiWrite(0x23, 0x39, 0x00);  //[7:0]CLK_A_Rise_eqt2
+            WhiskeyUtil.MipiWrite(0x23, 0x3A, 0x00);  //[7:0]CLK_A_Fall_eqt1
+            WhiskeyUtil.MipiWrite(0x23, 0x3B, 0x00);  //[7:0]CLK_A_Fall_eqt2
+            WhiskeyUtil.MipiWrite(0x23, 0x3C, 0x20);  //[5]CLK_A_VBP_Keep_gs_Chg, [4]CLK_A_VFP_Keep_gs_Chg, [3:2]CLK_A_Keep_Pos2_gs_Chg, [1:0]CLK_A_Keep_Pos1_gs_Chg
+            WhiskeyUtil.MipiWrite(0x23, 0x3D, 0x08);  //[7:6]CLK_A4_Stop_Level_gs_Chg, [5:4] CLK_A3_Stop_Level_gs_Chg, [3:2]CLK_A2_Stop_Level_gs_Chg, [1:0]CLK_A1_Stop_Level_gs_Chg
+            WhiskeyUtil.MipiWrite(0x23, 0x3E, 0x00);  //[7]CLK_A_Keep_Pos1[5], [4:0]CLK_A_Keep_Pos1[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x3F, 0x00);  //[7]CLK_A_Keep_Pos2[5], [4:0]CLK_A_Keep_Pos2[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x40, 0x00);  //[7]CLK_B_Rise[5], [4:0]CLK_B_Rise[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x41, 0x00);  //[7]CLK_B_Fall[5], [4:0]CLK_B_Fall[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x42, 0x00);  //[7:4]Phase_CLK_B, [3:0]Overlap_CLK_B
+            WhiskeyUtil.MipiWrite(0x23, 0x43, 0x00);  //[7]CLK_B_inv, [6]CLK_B_stop_level, [5] CLK_B_ct_mode, [4] CLK_B_Keep, [1]CLW_B_Rise_mode, [0]CLW_B_Fall_mode
+            WhiskeyUtil.MipiWrite(0x23, 0x44, 0x00);  //[7:0]CLW_B1_Rise
+            WhiskeyUtil.MipiWrite(0x23, 0x45, 0x00);  //[7:0]CLW_B2_Rise
+            WhiskeyUtil.MipiWrite(0x23, 0x46, 0x00);  //[7:0]CLW_B1_Fall
+            WhiskeyUtil.MipiWrite(0x23, 0x47, 0x00);  //[7:0]CLW_B2_Fall
+            WhiskeyUtil.MipiWrite(0x23, 0x48, 0x00);  //[7:0]CLK_B_Rise_eqt1
+            WhiskeyUtil.MipiWrite(0x23, 0x49, 0x00);  //[7:0]CLK_B_Rise_eqt2
+            WhiskeyUtil.MipiWrite(0x23, 0x4A, 0x00);  //[7:0]CLK_B_Fall_eqt1
+            WhiskeyUtil.MipiWrite(0x23, 0x4B, 0x00);  //[7:0]CLK_B_Fall_eqt2
+            WhiskeyUtil.MipiWrite(0x23, 0x4C, 0x00);  //[5]CLK_B_VBP_Keep_gs_Chg, [4]CLK_B_VFP_Keep_gs_Chg, [3:2]CLK_B_Keep_Pos2_gs_Chg, [1:0]CLK_B_Keep_Pos1_gs_Chg
+            WhiskeyUtil.MipiWrite(0x23, 0x4D, 0x00);  //[7:6]CLK_B4_Stop_Level_gs_Chg, [5:4] CLK_B3_Stop_Level_gs_Chg, [3:2]CLK_B2_Stop_Level_gs_Chg, [1:0]CLK_B1_Stop_Level_gs_Chg
+            WhiskeyUtil.MipiWrite(0x23, 0x4E, 0x00);  //[7]CLK_B_Keep_Pos1[5], [4:0]CLK_B_Keep_Pos1[4:0]
+            WhiskeyUtil.MipiWrite(0x23, 0x4F, 0x00);  //[7]CLK_B_Keep_Pos2[5], [4:0]CLK_B_Keep_Pos2[4:0]
+
+            WhiskeyUtil.MipiWrite(0x23, 0x70, 0x06);  //GOUT_R_01_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x71, 0x37);  //GOUT_R_02_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x72, 0x36);  //GOUT_R_03_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x73, 0x10);  //GOUT_R_04_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x74, 0x11);  //GOUT_R_05_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x75, 0x0A);  //GOUT_R_06_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x76, 0x2A);  //GOUT_R_07_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x77, 0x2A);  //GOUT_R_08_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x78, 0x0E);  //GOUT_R_09_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x79, 0x00);  //GOUT_R_10_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x7A, 0x00);  //GOUT_R_11_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x7B, 0x00);  //GOUT_R_12_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x7C, 0x00);  //GOUT_R_13_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x7D, 0x30);  //GOUT_R_14_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x7E, 0x31);  //GOUT_R_15_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x7F, 0x32);  //GOUT_R_16_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x80, 0x06);  //GOUT_L_01_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x81, 0x37);  //GOUT_L_02_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x82, 0x36);  //GOUT_L_03_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x83, 0x10);  //GOUT_L_04_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x84, 0x11);  //GOUT_L_05_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x85, 0x0A);  //GOUT_L_06_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x86, 0x2A);  //GOUT_L_07_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x87, 0x2A);  //GOUT_L_08_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x88, 0x0E);  //GOUT_L_09_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x89, 0x00);  //GOUT_L_10_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x8A, 0x00);  //GOUT_L_11_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x8B, 0x00);  //GOUT_L_12_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x8C, 0x00);  //GOUT_L_13_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x8D, 0x30);  //GOUT_L_14_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x8E, 0x31);  //GOUT_L_15_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x8F, 0x32);  //GOUT_L_16_FW
+            WhiskeyUtil.MipiWrite(0x23, 0x90, 0x0E);  //GOUT_R_01_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x91, 0x37);  //GOUT_R_02_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x92, 0x36);  //GOUT_R_03_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x93, 0x11);  //GOUT_R_04_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x94, 0x10);  //GOUT_R_05_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x95, 0x0A);  //GOUT_R_06_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x96, 0x2A);  //GOUT_R_07_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x97, 0x2A);  //GOUT_R_08_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x98, 0x06);  //GOUT_R_09_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x99, 0x00);  //GOUT_R_10_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x9A, 0x00);  //GOUT_R_11_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x9B, 0x00);  //GOUT_R_12_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x9C, 0x00);  //GOUT_R_13_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x9D, 0x30);  //GOUT_R_14_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x9E, 0x31);  //GOUT_R_15_BW
+            WhiskeyUtil.MipiWrite(0x23, 0x9F, 0x32);  //GOUT_R_16_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA0, 0x0E);  //GOUT_L_01_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA1, 0x37);  //GOUT_L_02_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA2, 0x36);  //GOUT_L_03_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA3, 0x11);  //GOUT_L_04_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA4, 0x10);  //GOUT_L_05_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA5, 0x0A);  //GOUT_L_06_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA6, 0x2A);  //GOUT_L_07_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA7, 0x2A);  //GOUT_L_08_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA8, 0x06);  //GOUT_L_09_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xA9, 0x00);  //GOUT_L_10_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xAA, 0x00);  //GOUT_L_11_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xAB, 0x00);  //GOUT_L_12_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xAC, 0x00);  //GOUT_L_13_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xAD, 0x30);  //GOUT_L_14_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xAE, 0x31);  //GOUT_L_15_BW
+            WhiskeyUtil.MipiWrite(0x23, 0xAF, 0x32);  //GOUT_L_16_BW
+
+            WhiskeyUtil.MipiWrite(0x23, 0xC7, 0x22);  //[7:4]Blank_Frame_OPT1[3:0], [3:0]Blank_Frame_OPT2[3:0]
+            WhiskeyUtil.MipiWrite(0x23, 0xC8, 0x57);  //[7:6]SRC_Front_Blank_Sel, [5:4]SRC_Mid_Blank_Sel, [3:2]SRC_Back_Blank_Sel
+            WhiskeyUtil.MipiWrite(0x23, 0xCB, 0x00);  //[5:4]GOUT_LVD, [3:2]GOUT_SO, [1:0]GOUT_SI
+            WhiskeyUtil.MipiWrite(0x23, 0xD0, 0x11);  //[5:4]ONSeq_Ext, [2:0] OFFSeq_Ext
+            WhiskeyUtil.MipiWrite(0x23, 0xD2, 0x79);  //[7:6]CLK_B_ONSeq_Ext, [5]CLK_A_ONSeq_Ext, [4] STV_C_ONSeq_Ext, [3:2]STV_B_ONSeq_Ext, STV_A_ONSeq_Ext, 00:ori, 01:VGL, 10:VGH, 11:GND
+            WhiskeyUtil.MipiWrite(0x23, 0xD3, 0x19);  //[5:4]CKH_ONSeq_Ext, [3]CLK_D_ONSeq_Ext, [1:0]CLK_C_ONSeq_Ext
+            WhiskeyUtil.MipiWrite(0x23, 0xD4, 0x10);  //[6]RESET_ONSeq_Ext, [4]CLK_E_ONSeq_Ext, [2]GAS_ONSeq_Ext, [1:0]FWBW_ONSeq_Ext
+            WhiskeyUtil.MipiWrite(0x23, 0xD6, 0x00);  //[7:6]CLK_A_OFFSeq_Ext, [5:4]STV_B_OFFSeq_Ext, [3:2]STV_B_OFFSeq_Ext, [1:0]STV_A_OFFSeq_Ext
+            WhiskeyUtil.MipiWrite(0x23, 0xD7, 0x00);  //[7:6]CKH_OFFSeq_Ext, [5:4]CLK_D_OFFSeq_Ext, [3:2]CLK_C_OFFSeq_Ext, [1:0]CLK_B_OFFSeq_Ext
+            WhiskeyUtil.MipiWrite(0x23, 0xD8, 0x00);  //[7:6]CLK_E_OFFSeq_Ext, [4]Reset_OFFSet_Ext, [2]GAS_OFFSeq_Ext, [1:0]FWBW_OFFSeq_Ext
+            WhiskeyUtil.MipiWrite(0x23, 0xDA, 0xFF);  //[7]CKH_AbnSeq, [6]CLK_D_AbnSeq, [5]CLK_C_AbnSeq, [4]CLK_B_AbnSeq, [3]CLK_A_AbnSeq, [2]STV_C_AbnSeq, [1]STV_B_AbnSeq, [0]STV_A_AbnSeq, 0:VGL, 1:VGH
+            WhiskeyUtil.MipiWrite(0x23, 0xDB, 0x1A);  //[4]CLK_E_AbnSeq, [3]Reset_AbnSeq, [2]GAS_AbnSeq, [1:0]FWBW_AbnSeq, 00:norm, 01:VGL, 10:VGH
+            WhiskeyUtil.MipiWrite(0x23, 0xE0, 0x54);  //[7:6]STV_A_ONSeq, [5:4]STV_B_ONSeq, [3:2]STV_C_ONSeq, 00:ori, 01:VGL, 10:VGH, 11:GND
+            WhiskeyUtil.MipiWrite(0x23, 0xE1, 0x15);  //[6:4]CLK_A_ONSeq, [4:3]CLK_B_ONSeq, [1:0]CLK_C_ONSeq, 00:ori, 01:VGL, 10:VGH
+            WhiskeyUtil.MipiWrite(0x23, 0xE2, 0x19);  //[7:6]CLK_D_ONSeq, [5:4]CLK_E_ONSeq, [3:2]CKH_ONSeq, [1:0]FWBW_ONSeq
+            WhiskeyUtil.MipiWrite(0x23, 0xE3, 0x00);  //[3:2]GAS_ONSeq, [1:0]Reset_ONSeq
+            WhiskeyUtil.MipiWrite(0x23, 0xE4, 0x00);  //[7:6]STV_A_OFFSeq, [5:4]STV_B_OFFSeq, [3:2]STV_C_OFFSeq, [1:0]CLK_A_OFFSeq, 00:ori, 01:VGL, 10:VGH
+            WhiskeyUtil.MipiWrite(0x23, 0xE5, 0x00);  //[7:6]CLK_B_OFFSeq, [5:4]CLK_C_OFFSeq, [3:2]CLK_D_OFFSeq, [1:0]CLK_E_OFFSeq
+            WhiskeyUtil.MipiWrite(0x23, 0xE6, 0x10);  //[7:6]CKH_OFFSeq, [5:4]FWBW_OFFSeq, [3:2]Reset_OFFSet, [1:0]GAS_OFFSeq
+            WhiskeyUtil.MipiWrite(0x23, 0xE7, 0x75);  //[6]SRC_ONSeq_OPT, [5:4]VCM_ONSeq_OPT, [2]SRC_OFFSeq_OPT, [1:0]VCM_OFFSeq_OPT
+            WhiskeyUtil.MipiWrite(0x23, 0xEA, 0x00);  //[7:4]STV_Onoff_Seq_dly, [3:0]VCK_A_Onoff_Seq_dly
+            WhiskeyUtil.MipiWrite(0x23, 0xEB, 0x00);  //[7:4]VCK_B_Onoff_Seq_dly, [3:0]VCK_C_Onoff_Seq_dly
+            WhiskeyUtil.MipiWrite(0x23, 0xEC, 0x00);  //[7:4]CKH_Onoff_Seq_dly, [3:0]GAS_Onoff_Seq_dly
+            WhiskeyUtil.MipiWrite(0x23, 0xF2, 0x00);  //[7]GS_Sync_2frm_opt
+            WhiskeyUtil.MipiWrite(0x23, 0xF5, 0x43);  //[7:6]RST_Each_Frame, [5]GIP_RST_INV, [4]PWRON_RST_OPT, [3:0]GRST_WID_ONSeq_EXT[11:8]
+
+            WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x21, 0x30, 0x11);
+            WhiskeyUtil.MipiWrite(0x23, 0x60, 0x00);  // Panel Scheme Selection
+            WhiskeyUtil.MipiWrite(0x23, 0x62, 0x20);  // Column Inversion
+            WhiskeyUtil.MipiWrite(0x23, 0x65, 0x11);  //[6:4]VFP_CKH_DUM, [2:0]VBP_CKH_DUM
+
+            WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x21, 0x30, 0x12);
+            WhiskeyUtil.MipiWrite(0x23, 0x11, 0x8D);  //[7]VGH_ratio, [5:0]VGHS, default:12v; AUO:8.5v; CSOT:9v  change, 0x8D -->0x 0D to 2x
+            WhiskeyUtil.MipiWrite(0x23, 0x12, 0x0F);  //[7]VGL_ratio, [5:0]VGLS, default:-8v; AUO:-8v; CSOT:-7v
+
+            //Iphone OPT
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x12);
+            //WhiskeyUtil.MipiWrite(0x23, 0x61, 0x92);                         //OSC frequency, default 90.43Mhz; For iphone+ MIPI 1.2Ghz case, OSC= 95.78Mhz
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x10);
+            //WhiskeyUtil.MipiWrite(0x23, 0x00, 0x0f);                         //[5:0]t8_de
+            //WhiskeyUtil.MipiWrite(0x23, 0x01, 0x00);                         //[5:0]t7p_de
+            //WhiskeyUtil.MipiWrite(0x23, 0x02, 0x0a);                         //[7:4]t9p_de, [3:0]t9_de
+            //WhiskeyUtil.MipiWrite(0x23, 0x03, 0x22);                         //[5:0]t7_de
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x11);
+            //WhiskeyUtil.MipiWrite(0x23, 0x54, 0x0a);                         //[5:0]SD-CKH  Setup time, refer to t9_de
+
+            //Iphone function
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x44);
+            //WhiskeyUtil.MipiWrite(0x23, 0x08, 0x00);                         //FTE1_SEL
+            //WhiskeyUtil.MipiWrite(0x23, 0x09, 0x06);                         //FTE_SEL = HIFA
+            //WhiskeyUtil.MipiWrite(0x23, 0x0A, 0x00);                         //VSOUT_SEL
+            //WhiskeyUtil.MipiWrite(0x23, 0x0B, 0x00);                         //HSOUT_SEL
+            //WhiskeyUtil.MipiWrite(0x23, 0x20, 0x01);                         //SDO_SEL = MSYNC
+
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0xB1);
+            //WhiskeyUtil.MipiWrite(0x23, 0x00, 0x01);                         //IPhone Func. Enable
+
+            //IPhone MY
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x45);
+            //WhiskeyUtil.MipiWrite(0x23, 0x03, 0x05);
+
+            WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0xA0);
+            WhiskeyUtil.MipiWrite(0x23, 0x03, 0x01);                         //VCOM 1
+            WhiskeyUtil.MipiWrite(0x23, 0x04, 0x18);                         //VCOM 1 =-0.25V
+            WhiskeyUtil.MipiWrite(0x23, 0x05, 0x01);                         //VCOM 2
+            WhiskeyUtil.MipiWrite(0x23, 0x06, 0x18);                         //VCOM 2 =-0.25V
+            WhiskeyUtil.MipiWrite(0x23, 0x07, 0x74);                         //GVDDP = 5V
+            WhiskeyUtil.MipiWrite(0x23, 0x08, 0x74);                         //GVDDN = -5V
+
+
+            WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x00);
+
+
+
+            //Tuning test code
+            //MX
+            WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x45);
+            WhiskeyUtil.MipiWrite(0x23, 0x03, 0x06);
+
+            //OSC trim target=90.4M
+            WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x12);
+            WhiskeyUtil.MipiWrite(0x23, 0x62, 0x8E);                         //OSC trim code
+                                                                             //ssl.mipi.read, 0x62 1
+
+            //TEST MODE for OSC trim 1/(period/780)
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x44);
+            //WhiskeyUtil.MipiWrite(0x23, 0x09, 0x0c);
+
+            //BIST Manual mode
+            //WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x11);
+            //WhiskeyUtil.MipiWrite(0x23, 0x41, 0x0E);                         //BIST pattern select all color
+            //WhiskeyUtil.MipiWrite(0x23, 0x31, 0x2F);                         //BIST pattern select all color
+            //WhiskeyUtil.MipiWrite(0x23, 0x30, 0x01);                         //BIST enable
+
+            //MIPI CD disable
+            WhiskeyUtil.MipiWrite(0x29, 0xff, 0x21, 0x30, 0x40);
+            WhiskeyUtil.MipiWrite(0x23, 0x6b, 0xfe);
+
+            WhiskeyUtil.MipiWrite(0x29, 0xFF, 0x21, 0x30, 0x00);
+
+
         }
 
 

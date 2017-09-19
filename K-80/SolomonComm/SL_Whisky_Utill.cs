@@ -36,7 +36,7 @@ namespace SL_Tek_Studio_Pro
             byte[] MipiData = new byte[3];
             MipiData[0] = type;
             MipiData[1] = data;
-            MipiData[1] = data1;
+            MipiData[2] = data1;
             return Mipi.MipiWrite(MipiData);
         }
 
@@ -79,7 +79,7 @@ namespace SL_Tek_Studio_Pro
             byte[] MipiData = new byte[3];
             MipiData[0] = type;
             MipiData[1] = data;
-            MipiData[1] = data1;
+            MipiData[2] = data1;
             return Mipi.MipiHSWrite(MipiData);
         }
 
